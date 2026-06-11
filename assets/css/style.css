@@ -1,0 +1,58 @@
+        body {
+            background-color: #FFFFFF;
+            color: #000000;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Typography */
+        .text-stroke {
+            -webkit-text-stroke: 2px #E87C93;
+            color: transparent;
+            text-shadow: 0 0 40px rgba(232, 124, 147, 0.4);
+        }
+
+        /* Glassmorphism */
+        .glass {
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Splitting Chars for GSAP */
+        .char {
+            display: inline-block;
+            transform: translateY(110%);
+            opacity: 0;
+        }
+
+        /* GPU Acceleration */
+        .gpu-accel {
+            transform: translateZ(0);
+            will-change: transform, opacity;
+        }
+
+        /* 3D Card Container */
+        .perspective-container {
+            perspective: 2000px;
+            transform-style: preserve-3d;
+        }
+        
+        .tilt-card {
+            transform-style: preserve-3d;
+            will-change: transform;
+            transition: transform 0.1s; /* Para suavizar a interpolação do mouse */
+        }
+
+        /* Efeito de Overlay sobre o vídeo para look premium (Active Theory style) */
+        .video-overlay {
+            background: linear-gradient(135deg, rgba(232, 124, 147, 0.2) 0%, rgba(125, 219, 244, 0.1) 100%);
+            mix-blend-mode: overlay;
+        }
+
+        /* Oculta scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #E87C93; border-radius: 4px; }
