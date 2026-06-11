@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="pt-BR" style="scroll-behavior: smooth;">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Fleet Management & Co | Imóveis de Alto Padrão</title>
+
+<!-- fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="assets/71de0c11c987f278_css2.css" rel="stylesheet"/>
+
+<!-- css -->
+<!-- marquee infinite scroll keyframes + scrollbar hiding for the horizontal listings rail -->
+<link rel="stylesheet" href="assets/css/animations.css"/>
+
+<!-- head-only js -->
+<!-- Iconify Icon web component, used for every icon (solar:* and ri:* sets) — must load in head so <iconify-icon> upgrades before render -->
+<script src="assets/851bed7af266f96a_iconify-icon.min.js"></script>
+<!-- Tailwind CSS runtime, generates utility classes used throughout the page -->
+<script src="assets/176e894661aa9cdc_3.4.17"></script>
+<!-- GSAP core, drives hero entrance and section scroll-reveal animations -->
+<script src="assets/efc85c7eb1418197_gsap.min.js"></script>
+<!-- GSAP ScrollTrigger plugin, used to fade-in sections as they enter the viewport -->
+<script src="assets/65f6c13748b0c8d8_ScrollTrigger.min.js"></script>
+</head>
+<body class="font-sans font-light text-zinc-900 bg-zinc-50 selection:bg-zinc-900 selection:text-white">
+
+<!-- navigation -->
+<nav class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out backdrop-blur-md border-b border-zinc-300 bg-white/90" id="navbar">
+<div class="w-full max-w-7xl mx-auto px-6 md:px-8 h-auto md:h-20 flex flex-col md:flex-row items-center justify-between py-4 md:py-0 gap-4 md:gap-0">
+<div class="flex md:justify-start md:gap-8 lg:gap-12 md:w-1/3 order-2 md:order-1 flex-wrap w-full gap-x-6 gap-y-6 items-center justify-center">
+<a class="text-xs uppercase tracking-widest font-medium text-black hover:text-zinc-500 transition-colors duration-300" href="#">Comprar</a>
+<a class="text-xs uppercase tracking-widest font-medium text-black hover:text-zinc-500 transition-colors duration-300" href="#">Vender</a>
+<a class="text-xs uppercase tracking-widest font-medium text-black hover:text-zinc-500 transition-colors duration-300" href="#">Gerenciar</a>
+</div>
+<div class="flex justify-center w-full md:w-1/3 order-1 md:order-2">
+<a class="font-sans text-xl md:text-2xl font-medium tracking-tight text-black" href="#">FLEET &amp; CO.</a>
+</div>
+<div class="flex items-center justify-center md:justify-end gap-6 md:gap-8 lg:gap-12 w-full md:w-1/3 order-3 md:order-3">
+<a class="text-xs uppercase tracking-widest font-medium text-black hover:text-zinc-500 transition-colors duration-300" href="#">Nossa Equipe</a>
+<a class="text-xs uppercase tracking-widest font-medium text-black hover:text-zinc-500 transition-colors duration-300" href="#">Imóveis</a>
+<a class="bg-transparent border border-black px-6 py-2.5 text-xs uppercase tracking-widest font-medium text-black hover:bg-black hover:text-white transition-all duration-300" href="#">Fale Conosco</a>
+</div>
+</div>
+</nav>
+
+<!-- hero -->
+<header class="min-h-[750px] flex flex-col md:pb-32 md:px-12 overflow-hidden bg-zinc-900 w-full h-screen pr-6 pb-24 pl-6 relative justify-end">
+<div class="absolute inset-0 z-0 overflow-hidden">
+<img alt="Imóvel de Luxo" class="w-full h-full object-cover hero-bg-img" src="assets/41fc40c93c508103_c9070952-37a3-41e4-bed6-847746.png" style="transform: scale(1.05);"/>
+<div class="absolute inset-0 bg-zinc-900/30"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-zinc-900/80 via-transparent to-transparent"></div>
+</div>
+<div class="absolute top-32 left-6 md:left-12 z-10 w-full max-w-[1400px] mx-auto">
+<span class="block uppercase text-xs font-medium text-white tracking-widest drop-shadow-md">Costa Norte, Auckland</span>
+</div>
+<div class="z-10 w-full max-w-[1400px] mr-auto ml-auto relative">
+<div class="max-w-4xl">
+<div class="w-full max-w-5xl bg-white/10 backdrop-blur-xl border border-white/20 hero-search-bar opacity-0 shadow-2xl overflow-hidden">
+<div class="flex border-b border-white/20">
+<button class="flex-1 md:text-sm uppercase transition-colors text-xs font-semibold text-white tracking-widest bg-white/20 border-r border-white/20 pt-4 pb-4" id="tab-buy" onclick="switchSearchTab('buy')">Comprar</button>
+<button class="flex-1 py-4 text-xs md:text-sm uppercase tracking-widest font-semibold bg-transparent text-white/70 hover:bg-white/10 border-r border-white/20 transition-colors" id="tab-rent" onclick="switchSearchTab('rent')">Alugar</button>
+<button class="flex-1 md:text-sm uppercase hover:bg-white/10 transition-colors text-xs font-semibold text-white/70 tracking-widest bg-transparent pt-4 pb-4" id="tab-sell" onclick="switchSearchTab('sell')">
+<span class="hidden sm:inline">Vender Meu Imóvel</span>
+<span class="sm:hidden">Vender</span>
+</button>
+</div>
+<div class="md:p-8 pt-6 pr-6 pb-6 pl-6">
+<div class="flex flex-col md:flex-row gap-6 md:gap-8 items-end" id="form-buy-rent">
+<div class="flex-1 w-full">
+<label class="block text-xs uppercase tracking-widest text-white/90 font-semibold mb-2">Localização</label>
+<input class="w-full bg-transparent border-b border-white/40 py-2 text-white placeholder:text-white/60 font-medium focus:outline-none focus:border-white transition-colors" placeholder="Buscar Costa Norte..." type="text"/>
+</div>
+<div class="w-full md:w-32 relative">
+<label class="block text-xs uppercase tracking-widest text-white/90 font-semibold mb-2">Quartos</label>
+<div class="relative">
+<select class="w-full bg-transparent border-b border-white/40 py-2 text-white font-medium focus:outline-none appearance-none cursor-pointer pr-8 [&amp;>option]:text-black">
+<option value="">Qualquer</option>
+<option value="1">1+</option>
+<option value="2">2+</option>
+<option value="3">3+</option>
+<option value="4">4+</option>
+</select>
+<iconify-icon class="absolute right-0 top-1/2 -translate-y-1/2 text-white pointer-events-none" icon="solar:alt-arrow-down-linear"></iconify-icon>
+</div>
+</div>
+<div class="w-full md:w-32 relative">
+<label class="block text-xs uppercase tracking-widest text-white/90 font-semibold mb-2">Banheiros</label>
+<div class="relative">
+<select class="w-full bg-transparent border-b border-white/40 py-2 text-white font-medium focus:outline-none appearance-none cursor-pointer pr-8 [&amp;>option]:text-black">
+<option value="">Qualquer</option>
+<option value="1">1+</option>
+<option value="2">2+</option>
+<option value="3">3+</option>
+</select>
+<iconify-icon class="absolute right-0 top-1/2 -translate-y-1/2 text-white pointer-events-none" icon="solar:alt-arrow-down-linear"></iconify-icon>
+</div>
+</div>
+<div class="w-full md:w-auto mt-4 md:mt-0">
+<button class="w-full bg-white text-black border border-white px-10 py-3.5 text-xs uppercase tracking-widest font-semibold hover:bg-white/20 hover:text-white hover:border-transparent backdrop-blur-md transition-all duration-300">Buscar</button>
+</div>
+</div>
+<div class="hidden flex-col md:flex-row gap-6 md:gap-8 items-end" id="form-sell">
+<div class="flex-1 w-full">
+<label class="block text-xs uppercase tracking-widest text-white/90 font-semibold mb-2">Endereço do Imóvel</label>
+<input class="w-full bg-transparent border-b border-white/40 py-2 text-white placeholder:text-white/60 font-medium focus:outline-none focus:border-white transition-colors" placeholder="Digite o endereço completo do imóvel..." type="text"/>
+</div>
+<div class="w-full md:w-auto mt-4 md:mt-0">
+<button class="w-full bg-white text-black border border-white px-10 py-3.5 text-xs uppercase tracking-widest font-semibold hover:bg-white/20 hover:text-white hover:border-transparent backdrop-blur-md transition-all duration-300 whitespace-nowrap">Solicitar Avaliação</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</header>
+
+<!-- the-fleet-advantage -->
+<section class="pt-32 md:pt-48 pb-20 md:pb-32 px-6 md:px-12 max-w-[1400px] mx-auto gsap-section bg-zinc-50">
+<div class="flex flex-col md:flex-row gap-12 md:gap-24 items-start">
+<div class="w-full md:w-1/4 pt-2 border-t border-zinc-300">
+<span class="block text-xs uppercase tracking-widest mt-4 text-zinc-600 font-medium">01 O Diferencial</span>
+</div>
+<div class="w-full md:w-3/4">
+<h2 class="text-3xl md:text-5xl font-sans leading-tight mb-10 font-normal tracking-tight text-zinc-900 max-w-3xl">Expertise completa. Conhecimento de mercado incomparável em toda a região.</h2>
+<div class="border-t border-zinc-300 py-6 mb-10 flex flex-col md:flex-row gap-4 md:gap-12 md:items-center">
+<span class="text-xs uppercase tracking-widest text-zinc-600 font-medium flex items-center gap-2">
+<iconify-icon class="text-zinc-400 text-lg" icon="solar:check-circle-linear"></iconify-icon> Equipe Especialista
+</span>
+<span class="text-xs uppercase tracking-widest text-zinc-600 font-medium flex items-center gap-2">
+<iconify-icon class="text-zinc-400 text-lg" icon="solar:home-linear"></iconify-icon> Portfólio Amplo
+</span>
+<span class="text-xs uppercase tracking-widest text-zinc-600 font-medium flex items-center gap-2">
+<iconify-icon class="text-zinc-400 text-lg" icon="solar:star-linear"></iconify-icon> Atendimento 5 Estrelas
+</span>
+</div>
+<div class="w-full aspect-[21/9] overflow-hidden border border-zinc-300 mb-10 group bg-zinc-100">
+<img alt="Equipe trabalhando" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-[1.03]" src="assets/b50ddfead51fdd41_photo-1600607687920-4e2a09cf15.avif"/>
+</div>
+<div class="max-w-2xl">
+<p class="text-zinc-600 font-light leading-relaxed mb-8 text-base">Nossa equipe especializada oferece um serviço completo. Gerenciamos diversos tipos de imóveis com precisão, garantindo que seu investimento prospere.</p>
+<a class="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-zinc-900 border-b border-zinc-900 pb-1 hover:text-zinc-500 hover:border-zinc-500 transition-colors font-medium" href="#">
+Conheça os Diretores <iconify-icon class="text-sm" icon="solar:arrow-right-linear"></iconify-icon>
+</a>
+</div>
+</div>
+</div>
+</section>
+
+<!-- divider -->
+<div class="w-full max-w-[1400px] mx-auto px-6 md:px-12 py-12 md:py-16">
+<div class="w-full border-t border-zinc-300 relative flex justify-center">
+<span class="absolute top-0 -translate-y-1/2 bg-zinc-50 px-4 text-xs uppercase tracking-widest text-zinc-500 bg-white">Próximo Foco</span>
+</div>
+</div>
+
+<!-- neighbourhood-highlights -->
+<section class="w-full relative pt-20 md:pt-32 pb-32 md:pb-48 px-6 md:px-12 max-w-[1400px] mx-auto gsap-section bg-white">
+<div class="grid md:grid-cols-12 gap-12 items-center">
+<div class="md:col-span-7">
+<div class="aspect-[16/9] w-full overflow-hidden relative border border-zinc-300 group shadow-sm"><img alt="Costa Norte" class="w-full h-full object-cover transform transition duration-700 ease-out group-hover:scale-[1.02]" src="assets/18d854bcc0982cd4_photo-1512917774080-9991f1c4c7.avif"/>
+<div class="absolute bottom-4 left-4 z-10 bg-white/90 backdrop-blur-sm border border-zinc-300 px-4 py-2 shadow-sm">
+<span class="text-xs uppercase tracking-widest text-zinc-900 font-medium">Takapuna Costa Norte</span>
+</div>
+</div>
+</div>
+<div class="md:col-span-5 md:pl-16 md:-translate-y-4 max-w-md">
+<span class="block text-xs uppercase tracking-widest mb-6 text-zinc-600 font-medium">02 Especialistas Locais</span>
+<h3 class="font-sans text-3xl md:text-4xl mb-6 font-normal leading-tight tracking-tight text-zinc-900">Raízes profundas em nossas comunidades.</h3>
+<p class="text-zinc-600 font-light leading-relaxed mb-8">Possuímos profundo conhecimento local. De mansões à beira-mar a apartamentos modernos, conectamos nossos clientes ao melhor da Costa Norte.</p>
+<div class="border-t border-zinc-300 pt-6 mt-8 mb-10 grid grid-cols-1 md:grid-cols-2 gap-y-5 gap-x-4">
+<div class="flex items-baseline gap-4 justify-between border-b border-zinc-200 pb-2">
+<span class="text-xs uppercase tracking-widest text-zinc-900 font-medium shrink-0">Região</span>
+<span class="text-sm text-zinc-600 font-light text-right">Takapuna &amp; Milford</span>
+</div>
+<div class="flex items-baseline gap-4 justify-between border-b border-zinc-200 pb-2">
+<span class="text-xs uppercase tracking-widest text-zinc-900 font-medium shrink-0">Região</span>
+<span class="text-sm text-zinc-600 font-light text-right">Devonport Histórica</span>
+</div>
+<div class="flex items-baseline gap-4 justify-between border-b border-zinc-200 pb-2">
+<span class="text-xs uppercase tracking-widest text-zinc-900 font-medium shrink-0">Região</span>
+<span class="text-sm text-zinc-600 font-light text-right">Albany Lifestyle</span>
+</div>
+<div class="flex items-baseline gap-4 justify-between border-b border-zinc-200 pb-2">
+<span class="text-xs uppercase tracking-widest text-zinc-900 font-medium shrink-0">Região</span>
+<span class="text-sm text-zinc-600 font-light text-right">East Coast Bays</span>
+</div>
+</div>
+<div class="flex flex-col items-start gap-4">
+<a class="text-xs uppercase tracking-widest border border-zinc-900 px-8 py-3.5 font-semibold text-zinc-900 hover:bg-zinc-900 hover:text-white transition-all duration-300" href="#">Explorar Bairros</a>
+</div>
+</div>
+</div>
+</section>
+
+<!-- featured-listings -->
+<section class="py-24 md:py-32 bg-zinc-900 text-white overflow-hidden gsap-section">
+<div class="px-6 md:px-12 max-w-[1400px] mx-auto mb-16 flex flex-col md:flex-row md:items-end justify-between gap-8">
+<div>
+<span class="block text-xs uppercase tracking-widest mb-4 text-zinc-400 font-medium">03 Imóveis em Destaque</span>
+<h2 class="text-3xl md:text-5xl font-sans font-normal tracking-tight">Coleção curada.</h2>
+</div>
+<a class="inline-flex items-center gap-2 text-xs uppercase tracking-widest border-b border-white pb-1 hover:text-zinc-400 hover:border-zinc-400 transition-colors font-medium" href="#">
+Ver Todos os Imóveis <iconify-icon class="text-sm" icon="solar:arrow-right-linear"></iconify-icon>
+</a>
+</div>
+<div class="flex gap-6 px-6 md:px-12 pb-12 overflow-x-auto hide-scrollbar snap-x snap-mandatory">
+<div class="min-w-[85vw] md:min-w-[400px] max-w-[500px] shrink-0 snap-center group cursor-pointer">
+<div class="aspect-[4/5] overflow-hidden relative mb-6 bg-zinc-800">
+<img alt="Imóvel de Luxo" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" src="assets/585a27183f42ba3e_917d6f93-fb36-439a-8c48-884b67.jpg"/>
+<div class="absolute top-4 right-4 bg-white text-zinc-900 px-4 py-1.5 text-xs uppercase tracking-widest font-semibold z-10 shadow-lg">À Venda</div>
+</div>
+<div class="flex justify-between items-start gap-4">
+<div>
+<h4 class="text-lg font-medium mb-1 tracking-tight">Rua Seaview, 142</h4>
+<p class="text-zinc-400 text-sm font-light">Castor Bay, Costa Norte</p>
+</div>
+<div class="text-right">
+<p class="text-lg font-medium tracking-tight">Sob Consulta</p>
+</div>
+</div>
+<div class="flex items-center gap-6 mt-5 text-sm text-zinc-300 border-t border-zinc-800 pt-5 font-light">
+<span class="flex items-center gap-2"><iconify-icon class="text-lg" icon="solar:bed-linear"></iconify-icon> 4</span>
+<span class="flex items-center gap-2"><iconify-icon class="text-lg" icon="solar:bath-linear"></iconify-icon> 3</span>
+<span class="flex items-center gap-2"><iconify-icon class="text-lg" icon="solar:ruler-linear"></iconify-icon> 280 m²</span>
+</div>
+</div>
+<div class="min-w-[85vw] md:min-w-[400px] max-w-[500px] shrink-0 snap-center group cursor-pointer">
+<div class="aspect-[4/5] overflow-hidden relative mb-6 bg-zinc-800">
+<img alt="Casa Moderna" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" src="assets/4b49a03fbe819e47_photo-1512917774080-9991f1c4c7.avif"/>
+<div class="absolute top-4 right-4 bg-white text-zinc-900 px-4 py-1.5 text-xs uppercase tracking-widest font-semibold z-10 shadow-lg">Leilão</div>
+</div>
+<div class="flex justify-between items-start gap-4">
+<div>
+<h4 class="text-lg font-medium mb-1 tracking-tight">Rua Hurstmere, 88</h4>
+<p class="text-zinc-400 text-sm font-light">Takapuna, Costa Norte</p>
+</div>
+<div class="text-right">
+<p class="text-lg font-medium tracking-tight">Será Leiloado</p>
+</div>
+</div>
+<div class="flex items-center gap-6 mt-5 text-sm text-zinc-300 border-t border-zinc-800 pt-5 font-light">
+<span class="flex items-center gap-2"><iconify-icon class="text-lg" icon="solar:bed-linear"></iconify-icon> 3</span>
+<span class="flex items-center gap-2"><iconify-icon class="text-lg" icon="solar:bath-linear"></iconify-icon> 2</span>
+<span class="flex items-center gap-2"><iconify-icon class="text-lg" icon="solar:ruler-linear"></iconify-icon> 195 m²</span>
+</div>
+</div>
+<div class="min-w-[85vw] md:min-w-[400px] max-w-[500px] shrink-0 snap-center group cursor-pointer">
+<div class="aspect-[4/5] overflow-hidden relative mb-6 bg-zinc-800">
+<img alt="Interior Minimalista" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" src="assets/76c850a45a1edee4_photo-1600585154340-be6161a56a.avif"/>
+<div class="absolute top-4 right-4 bg-zinc-900 text-white border border-zinc-700 px-4 py-1.5 text-xs uppercase tracking-widest font-semibold z-10 shadow-lg">Para Alugar</div>
+</div>
+<div class="flex justify-between items-start gap-4">
+<div>
+<h4 class="text-lg font-medium mb-1 tracking-tight">Rua Victoria, 21a</h4>
+<p class="text-zinc-400 text-sm font-light">Devonport, Costa Norte</p>
+</div>
+<div class="text-right">
+<p class="text-lg font-medium tracking-tight">R$ 6.500 / sem</p>
+</div>
+</div>
+<div class="flex items-center gap-6 mt-5 text-sm text-zinc-300 border-t border-zinc-800 pt-5 font-light">
+<span class="flex items-center gap-2"><iconify-icon class="text-lg" icon="solar:bed-linear"></iconify-icon> 3</span>
+<span class="flex items-center gap-2"><iconify-icon class="text-lg" icon="solar:bath-linear"></iconify-icon> 2</span>
+<span class="flex items-center gap-2"><iconify-icon class="text-lg" icon="solar:ruler-linear"></iconify-icon> --</span>
+</div>
+</div>
+<div class="min-w-[20px] md:min-w-[48px] shrink-0"></div>
+</div>
+</section>
+
+<!-- marquee-trust -->
+<div class="bg-zinc-200 py-5 overflow-hidden marquee-container flex items-center border-y border-zinc-300">
+<div class="marquee-track flex gap-12 md:gap-20 items-center text-xs uppercase tracking-widest font-medium text-zinc-600">
+<span>Imobiliária Premiada 2023</span>
+<span class="w-1.5 h-1.5 bg-zinc-400 rounded-full"></span>
+<span>R$ 2,5 Bilhões em Imóveis Geridos</span>
+<span class="w-1.5 h-1.5 bg-zinc-400 rounded-full"></span>
+<span>98% de Sucesso em Leilões</span>
+<span class="w-1.5 h-1.5 bg-zinc-400 rounded-full"></span>
+<span>Mais de 2.000 Clientes Satisfeitos</span>
+<span class="w-1.5 h-1.5 bg-zinc-400 rounded-full"></span>
+<span>Imobiliária Premiada 2023</span>
+<span class="w-1.5 h-1.5 bg-zinc-400 rounded-full"></span>
+<span>R$ 2,5 Bilhões em Imóveis Geridos</span>
+<span class="w-1.5 h-1.5 bg-zinc-400 rounded-full"></span>
+<span>98% de Sucesso em Leilões</span>
+<span class="w-1.5 h-1.5 bg-zinc-400 rounded-full"></span>
+<span>Mais de 2.000 Clientes Satisfeitos</span>
+<span class="w-1.5 h-1.5 bg-zinc-400 rounded-full"></span>
+</div>
+</div>
+
+<!-- footer -->
+<footer class="bg-white pt-24 pb-12 px-6 md:px-12 border-t border-zinc-300">
+<div class="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-16 md:gap-8 mb-24">
+<div class="md:col-span-2 pr-0 md:pr-12">
+<a class="font-sans text-2xl font-medium tracking-tight text-zinc-900 block mb-6" href="#">FLEET &amp; CO.</a>
+<p class="text-zinc-600 font-light leading-relaxed max-w-sm mb-10 text-sm">Serviços de imóveis de alto padrão e gestão de propriedades em toda a Costa Norte de Auckland. Definimos o luxo imobiliário moderno por meio de conhecimento especializado e atendimento incomparável.</p>
+<div class="flex items-center gap-4">
+<a class="w-10 h-10 border border-zinc-300 flex items-center justify-center rounded-full text-zinc-600 hover:bg-zinc-900 hover:text-white hover:border-zinc-900 transition-all duration-300" href="#">
+<iconify-icon class="text-lg" icon="ri:instagram-line"></iconify-icon>
+</a>
+<a class="w-10 h-10 border border-zinc-300 flex items-center justify-center rounded-full text-zinc-600 hover:bg-zinc-900 hover:text-white hover:border-zinc-900 transition-all duration-300" href="#">
+<iconify-icon class="text-lg" icon="ri:linkedin-fill"></iconify-icon>
+</a>
+<a class="w-10 h-10 border border-zinc-300 flex items-center justify-center rounded-full text-zinc-600 hover:bg-zinc-900 hover:text-white hover:border-zinc-900 transition-all duration-300" href="#">
+<iconify-icon class="text-lg" icon="ri:facebook-fill"></iconify-icon>
+</a>
+</div>
+</div>
+<div>
+<h4 class="text-xs uppercase tracking-widest font-semibold text-zinc-900 mb-8">Serviços</h4>
+<ul class="space-y-4">
+<li><a class="text-zinc-600 hover:text-zinc-900 text-sm font-light transition-colors" href="#">Comprar Imóvel</a></li>
+<li><a class="text-zinc-600 hover:text-zinc-900 text-sm font-light transition-colors" href="#">Vender Imóvel</a></li>
+<li><a class="text-zinc-600 hover:text-zinc-900 text-sm font-light transition-colors" href="#">Gestão de Imóveis</a></li>
+<li><a class="text-zinc-600 hover:text-zinc-900 text-sm font-light transition-colors" href="#">Avaliação Gratuita</a></li>
+<li><a class="text-zinc-600 hover:text-zinc-900 text-sm font-light transition-colors" href="#">Marketing de Empreendimentos</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-xs uppercase tracking-widest font-semibold text-zinc-900 mb-8">Fale Conosco</h4>
+<ul class="space-y-5">
+<li class="text-zinc-600 text-sm font-light leading-relaxed">Rua Hurstmere, 123,<br/>Takapuna, Auckland 0622</li>
+<li>
+<a class="text-zinc-900 hover:text-zinc-500 text-sm font-medium transition-colors border-b border-zinc-900 hover:border-zinc-500 pb-0.5 inline-block" href="mailto:hello@fleetandco.co.nz">hello@fleetandco.co.nz</a>
+</li>
+<li>
+<a class="text-zinc-600 hover:text-zinc-900 text-sm font-light transition-colors" href="tel:+6491234567">+64 9 123 4567</a>
+</li>
+</ul>
+</div>
+</div>
+<div class="max-w-[1400px] mx-auto border-t border-zinc-200 pt-8 flex flex-col md:flex-row justify-between items-center gap-6">
+<p class="text-xs text-zinc-500 font-light uppercase tracking-widest">© 2024 Fleet Management &amp; Co.</p>
+<div class="flex gap-8">
+<a class="text-xs text-zinc-500 hover:text-zinc-900 font-light uppercase tracking-widest transition-colors" href="#">Política de Privacidade</a>
+<a class="text-xs text-zinc-500 hover:text-zinc-900 font-light uppercase tracking-widest transition-colors" href="#">Termos de Serviço</a>
+</div>
+</div>
+</footer>
+
+<!-- js -->
+<!-- search tab toggle, navbar scroll glassmorphism, GSAP hero entrance + section scroll-reveal -->
+<script src="assets/js/interactions.js"></script>
+
+</body>
+</html>

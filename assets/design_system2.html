@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Design System - Lidiane Assessoria</title>
+    
+    <!-- Fonts: Montserrat & Rochester -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Rochester&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS (CDN for rapid styling) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Montserrat', 'sans-serif'],
+                        cursive: ['Rochester', 'cursive'],
+                    },
+                    colors: {
+                        brand: {
+                            pink: '#E87C93',
+                            blue: '#7DDBF4',
+                            yellow: '#F9E385',
+                            white: '#FFFFFF',
+                            black: '#000000',
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'spin-slow': 'spin 12s linear infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- GSAP for animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <!-- Iconify for icons -->
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+
+    <style>
+        body {
+            background-color: #FFFFFF;
+            color: #000000;
+            overflow-x: hidden;
+        }
+
+        /* Transparent Lettering Effect */
+        .text-stroke {
+            -webkit-text-stroke: 2px #E87C93;
+            color: transparent;
+            text-shadow: 0 0 40px rgba(232, 124, 147, 0.4);
+        }
+        
+        .text-stroke-black {
+            -webkit-text-stroke: 2px #000000;
+            color: transparent;
+        }
+
+        /* Glassmorphism */
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        /* Glow effects */
+        .glow-pink {
+            box-shadow: 0 0 20px rgba(232, 124, 147, 0.6);
+        }
+        .glow-blue {
+            box-shadow: 0 0 20px rgba(125, 219, 244, 0.6);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #E87C93; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #d46b82; 
+        }
+
+        /* Tooltip Arrow */
+        .tooltip-arrow::before {
+            content: '';
+            position: absolute;
+            top: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 0 6px 6px 6px;
+            border-style: solid;
+            border-color: transparent transparent #000000 transparent;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-pink selection:text-white relative">
+
+    <!-- Background Animated Blobs -->
+    <div class="fixed inset-0 pointer-events-none z-[-1] overflow-hidden">
+        <div class="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-brand-pink opacity-5 blur-[120px] animate-float"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[40vw] h-[40vw] rounded-full bg-brand-blue opacity-10 blur-[120px] animate-float" style="animation-delay: -2s"></div>
+        <div class="absolute top-[40%] left-[60%] w-[30vw] h-[30vw] rounded-full bg-brand-yellow opacity-10 blur-[100px] animate-pulse-slow"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-2 text-brand-black group cursor-pointer">
+                <iconify-icon icon="solar:star-fall-bold-duotone" class="text-3xl text-brand-pink group-hover:rotate-180 transition-transform duration-700"></iconify-icon>
+                <span class="font-cursive text-2xl font-bold tracking-wider">Lidiane</span>
+            </div>
+            <div class="hidden md:flex gap-8 items-center font-medium text-sm">
+                <a href="#tipografia" class="hover:text-brand-pink transition-colors">Tipografia</a>
+                <a href="#cores" class="hover:text-brand-pink transition-colors">Cores</a>
+                <a href="#componentes" class="hover:text-brand-pink transition-colors">Componentes</a>
+                <a href="#icones" class="hover:text-brand-pink transition-colors">Ícones</a>
+            </div>
+            <button class="bg-brand-black text-white px-6 py-2.5 rounded-full text-sm font-semibold hover:bg-brand-pink hover:glow-pink transition-all duration-300 transform hover:scale-105">
+                Baixar Assets
+            </button>
+        </div>
+    </nav>
+
+    <!-- 1. Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <!-- Using an abstract image or clean video placeholder, referencing styles from templates -->
+            <img src="templates/bloomava-creative-93.aura.build/bloomava-creative-93.aura.build/assets/7ecee7527be60324_0d69c301-1bcc-4ce5-93d4-6294b9.jpg" alt="Hero Background" class="w-full h-full object-cover opacity-[0.03] animate-pulse-slow" onerror="this.style.display='none'">
+        </div>
+        
+        <div class="max-w-7xl mx-auto px-6 relative z-10 grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
+            <div class="md:col-span-7 flex flex-col gap-6">
+                <div class="gsap-reveal opacity-0 translate-y-10">
+                    <span class="px-4 py-1.5 rounded-full bg-brand-pink/10 text-brand-pink text-xs font-bold uppercase tracking-widest inline-flex items-center gap-2 mb-4 border border-brand-pink/20">
+                        <iconify-icon icon="solar:magic-stick-3-linear"></iconify-icon> Design System 2.0
+                    </span>
+                    <h1 class="text-6xl md:text-8xl font-black tracking-tighter leading-[0.9]">
+                        Design<br>
+                        <span class="text-stroke font-cursive font-normal text-7xl md:text-9xl mt-2 block ml-[-10px]">Inteligente</span>
+                    </h1>
+                </div>
+                
+                <p class="text-lg md:text-xl text-gray-600 font-light max-w-lg mt-4 gsap-reveal opacity-0 translate-y-10" style="transition-delay: 0.1s">
+                    Uma fusão de elegância, funcionalidade e micro-interações. Criado para impressionar no primeiro olhar e encantar em cada detalhe.
+                </p>
+                
+                <div class="flex gap-4 mt-8 gsap-reveal opacity-0 translate-y-10" style="transition-delay: 0.2s">
+                    <button class="bg-brand-pink text-white px-8 py-4 rounded-full font-semibold flex items-center gap-2 hover:bg-black hover:text-white transition-all duration-500 group shadow-[0_0_20px_rgba(232,124,147,0.4)]">
+                        Explorar Componentes 
+                        <iconify-icon icon="solar:arrow-right-linear" class="group-hover:translate-x-1 transition-transform"></iconify-icon>
+                    </button>
+                    <button class="w-14 h-14 rounded-full border border-gray-200 flex items-center justify-center hover:border-brand-pink hover:text-brand-pink transition-colors">
+                        <iconify-icon icon="solar:play-circle-linear" class="text-2xl"></iconify-icon>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="md:col-span-5 relative gsap-reveal opacity-0 scale-95" style="transition-delay: 0.3s">
+                <div class="relative w-full aspect-[4/5] rounded-[2rem] overflow-hidden shadow-2xl group">
+                    <img src="templates/luxury-real-estate-22.aura.build/luxury-real-estate-22.aura.build/assets/76c850a45a1edee4_photo-1600585154340-be6161a56a.avif" alt="Showcase" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" onerror="this.src='https://images.unsplash.com/photo-1600585154340-be6161a56a?auto=format&fit=crop&q=80'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                    
+                    <!-- Floating UI Element -->
+                    <div class="absolute bottom-8 left-8 right-8 glass p-6 rounded-2xl flex items-center gap-4 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                        <div class="w-12 h-12 rounded-full bg-brand-blue flex items-center justify-center text-white shrink-0">
+                            <iconify-icon icon="solar:graph-up-linear" class="text-xl"></iconify-icon>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-800 font-bold uppercase tracking-wider mb-1">Satisfação</p>
+                            <p class="text-3xl font-light text-black">99.8%</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Decorative Elements -->
+                <div class="absolute -top-6 -right-6 w-24 h-24 rounded-full border-2 border-brand-yellow border-dashed animate-spin-slow opacity-50"></div>
+                <div class="absolute -bottom-6 -left-6 w-32 h-32 rounded-full bg-brand-pink opacity-20 blur-2xl"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. Tipografia -->
+    <section id="tipografia" class="py-24 px-6 border-t border-gray-100">
+        <div class="max-w-7xl mx-auto">
+            <div class="mb-16">
+                <span class="text-brand-blue font-bold tracking-widest uppercase text-xs mb-2 block">Seção 01</span>
+                <h2 class="text-4xl md:text-5xl font-light tracking-tight">Tipografia</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+                <!-- Montserrat -->
+                <div class="glass p-10 rounded-[2rem] border border-gray-100 shadow-sm gsap-section">
+                    <div class="flex justify-between items-start mb-8">
+                        <div>
+                            <h3 class="text-3xl font-bold font-sans">Montserrat</h3>
+                            <p class="text-sm text-gray-500 mt-1">Primária • Sem-serifa • Google Fonts</p>
+                        </div>
+                        <span class="text-6xl font-black text-gray-100 leading-none">Aa</span>
+                    </div>
+                    
+                    <div class="space-y-6">
+                        <div class="pb-4 border-b border-gray-100">
+                            <p class="text-[2rem] font-light leading-tight">Uma fonte geométrica, elegante e altamente legível.</p>
+                        </div>
+                        <div class="text-gray-400 break-words tracking-widest uppercase text-xs leading-loose">
+                            A B C D E F G H I J K L M N O P Q R S T U V W X Y Z<br>
+                            a b c d e f g h i j k l m n o p q r s t u v w x y z<br>
+                            0 1 2 3 4 5 6 7 8 9 ! @ # $ % & *
+                        </div>
+                        <div class="flex flex-wrap gap-4 pt-4">
+                            <span class="px-3 py-1 bg-gray-50 rounded-lg text-sm">Light 300</span>
+                            <span class="px-3 py-1 bg-gray-50 rounded-lg text-sm font-normal">Regular 400</span>
+                            <span class="px-3 py-1 bg-gray-50 rounded-lg text-sm font-medium">Medium 500</span>
+                            <span class="px-3 py-1 bg-gray-50 rounded-lg text-sm font-semibold">SemiBold 600</span>
+                            <span class="px-3 py-1 bg-gray-50 rounded-lg text-sm font-bold">Bold 700</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rochester -->
+                <div class="glass p-10 rounded-[2rem] border border-brand-pink/20 shadow-sm gsap-section relative overflow-hidden">
+                    <div class="absolute -right-10 -top-10 w-40 h-40 bg-brand-pink/5 rounded-full blur-2xl"></div>
+                    <div class="flex justify-between items-start mb-8 relative z-10">
+                        <div>
+                            <h3 class="text-4xl font-normal font-cursive text-brand-pink">Rochester</h3>
+                            <p class="text-sm text-gray-500 mt-2">Secundária • Cursiva • Destaques</p>
+                        </div>
+                        <span class="text-6xl font-cursive text-brand-pink/20 leading-none">Aa</span>
+                    </div>
+                    
+                    <div class="space-y-6 relative z-10">
+                        <div class="pb-4 border-b border-brand-pink/10">
+                            <p class="text-4xl font-cursive leading-normal">Trazendo um toque de sofisticação e leveza.</p>
+                        </div>
+                        <div class="text-brand-pink/50 font-cursive text-2xl break-words leading-relaxed">
+                            a b c d e f g h i j k l m n o p q r s t u v w x y z
+                        </div>
+                        <div class="flex flex-wrap gap-4 pt-4">
+                            <span class="px-3 py-1 bg-brand-pink/10 text-brand-pink rounded-lg text-sm">Regular 400</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Type Scale -->
+            <div class="mt-16 glass p-10 rounded-[2rem] shadow-sm gsap-section">
+                <h3 class="text-xl font-bold mb-8 uppercase tracking-widest text-gray-400">Escala Tipográfica</h3>
+                <div class="space-y-8">
+                    <div class="flex flex-col md:flex-row md:items-center gap-4 md:gap-12 border-b border-gray-100 pb-6">
+                        <div class="w-32 text-xs text-gray-400 font-mono">h1 • 64px • 700</div>
+                        <div class="text-6xl font-bold">Cabeçalho Um</div>
+                    </div>
+                    <div class="flex flex-col md:flex-row md:items-center gap-4 md:gap-12 border-b border-gray-100 pb-6">
+                        <div class="w-32 text-xs text-gray-400 font-mono">h2 • 48px • 300</div>
+                        <div class="text-5xl font-light">Cabeçalho Dois</div>
+                    </div>
+                    <div class="flex flex-col md:flex-row md:items-center gap-4 md:gap-12 border-b border-gray-100 pb-6">
+                        <div class="w-32 text-xs text-gray-400 font-mono">h3 • 30px • 600</div>
+                        <div class="text-3xl font-semibold">Cabeçalho Três</div>
+                    </div>
+                    <div class="flex flex-col md:flex-row md:items-center gap-4 md:gap-12 border-b border-gray-100 pb-6">
+                        <div class="w-32 text-xs text-gray-400 font-mono">accent • 40px • 400</div>
+                        <div class="text-4xl font-cursive text-brand-pink">Texto de Destaque</div>
+                    </div>
+                    <div class="flex flex-col md:flex-row md:items-center gap-4 md:gap-12 border-b border-gray-100 pb-6">
+                        <div class="w-32 text-xs text-gray-400 font-mono">body • 16px • 400</div>
+                        <div class="text-base text-gray-600 max-w-2xl">Parágrafo padrão. Acreditamos que a chave do nosso sucesso está em compreender as necessidades essenciais dos nossos clientes através de um design inteligente e limpo.</div>
+                    </div>
+                    <div class="flex flex-col md:flex-row md:items-center gap-4 md:gap-12">
+                        <div class="w-32 text-xs text-gray-400 font-mono">caption • 12px • 700</div>
+                        <div class="text-xs font-bold uppercase tracking-widest text-gray-400">Texto Auxiliar ou Rótulo</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Sistema de Cores -->
+    <section id="cores" class="py-24 px-6 bg-gray-50 border-t border-gray-100">
+        <div class="max-w-7xl mx-auto">
+            <div class="mb-16">
+                <span class="text-brand-pink font-bold tracking-widest uppercase text-xs mb-2 block">Seção 02</span>
+                <h2 class="text-4xl md:text-5xl font-light tracking-tight">Sistema de Cores</h2>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
+                <!-- White -->
+                <div class="group cursor-pointer gsap-section">
+                    <div class="w-full aspect-square rounded-2xl bg-[#FFFFFF] border border-gray-200 shadow-sm flex items-end p-4 transition-transform duration-300 group-hover:-translate-y-2">
+                        <div class="opacity-0 group-hover:opacity-100 transition-opacity bg-black/5 p-2 rounded-lg backdrop-blur-sm w-full text-center">
+                            <iconify-icon icon="solar:copy-linear" class="text-gray-600 text-xl"></iconify-icon>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <h4 class="font-bold text-gray-800">Branco (Neutral)</h4>
+                        <p class="text-xs text-gray-500 font-mono mt-1">HEX: #FFFFFF</p>
+                        <p class="text-xs text-gray-500 font-mono">RGB: 255, 255, 255</p>
+                        <p class="text-xs text-gray-400 mt-2">Backgrounds, Cards, Superfícies.</p>
+                    </div>
+                </div>
+
+                <!-- Pink -->
+                <div class="group cursor-pointer gsap-section" style="transition-delay: 0.1s">
+                    <div class="w-full aspect-square rounded-2xl bg-[#E87C93] shadow-md flex items-end p-4 transition-all duration-300 group-hover:-translate-y-2 group-hover:shadow-[0_10px_30px_rgba(232,124,147,0.4)]">
+                         <div class="opacity-0 group-hover:opacity-100 transition-opacity bg-white/20 p-2 rounded-lg backdrop-blur-sm w-full text-center">
+                            <iconify-icon icon="solar:copy-linear" class="text-white text-xl"></iconify-icon>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <h4 class="font-bold text-gray-800">Rosa (Primary)</h4>
+                        <p class="text-xs text-gray-500 font-mono mt-1">HEX: #E87C93</p>
+                        <p class="text-xs text-gray-500 font-mono">RGB: 232, 124, 147</p>
+                        <p class="text-xs text-gray-400 mt-2">Ações principais, Destaques, Links.</p>
+                    </div>
+                </div>
+
+                <!-- Blue -->
+                <div class="group cursor-pointer gsap-section" style="transition-delay: 0.2s">
+                    <div class="w-full aspect-square rounded-2xl bg-[#7DDBF4] shadow-md flex items-end p-4 transition-all duration-300 group-hover:-translate-y-2 group-hover:shadow-[0_10px_30px_rgba(125,219,244,0.4)]">
+                         <div class="opacity-0 group-hover:opacity-100 transition-opacity bg-white/20 p-2 rounded-lg backdrop-blur-sm w-full text-center">
+                            <iconify-icon icon="solar:copy-linear" class="text-white text-xl"></iconify-icon>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <h4 class="font-bold text-gray-800">Azul (Secondary)</h4>
+                        <p class="text-xs text-gray-500 font-mono mt-1">HEX: #7DDBF4</p>
+                        <p class="text-xs text-gray-500 font-mono">RGB: 125, 219, 244</p>
+                        <p class="text-xs text-gray-400 mt-2">Ações secundárias, Ícones, Gradientes.</p>
+                    </div>
+                </div>
+
+                <!-- Yellow -->
+                <div class="group cursor-pointer gsap-section" style="transition-delay: 0.3s">
+                    <div class="w-full aspect-square rounded-2xl bg-[#F9E385] shadow-md flex items-end p-4 transition-all duration-300 group-hover:-translate-y-2 group-hover:shadow-[0_10px_30px_rgba(249,227,133,0.4)]">
+                         <div class="opacity-0 group-hover:opacity-100 transition-opacity bg-black/10 p-2 rounded-lg backdrop-blur-sm w-full text-center">
+                            <iconify-icon icon="solar:copy-linear" class="text-black text-xl"></iconify-icon>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <h4 class="font-bold text-gray-800">Amarelo (Accent)</h4>
+                        <p class="text-xs text-gray-500 font-mono mt-1">HEX: #F9E385</p>
+                        <p class="text-xs text-gray-500 font-mono">RGB: 249, 227, 133</p>
+                        <p class="text-xs text-gray-400 mt-2">Avisos, Detalhes decorativos, Tags.</p>
+                    </div>
+                </div>
+
+                <!-- Black -->
+                <div class="group cursor-pointer gsap-section" style="transition-delay: 0.4s">
+                    <div class="w-full aspect-square rounded-2xl bg-[#000000] shadow-md flex items-end p-4 transition-all duration-300 group-hover:-translate-y-2 group-hover:shadow-[0_10px_30px_rgba(0,0,0,0.2)]">
+                         <div class="opacity-0 group-hover:opacity-100 transition-opacity bg-white/20 p-2 rounded-lg backdrop-blur-sm w-full text-center">
+                            <iconify-icon icon="solar:copy-linear" class="text-white text-xl"></iconify-icon>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <h4 class="font-bold text-gray-800">Preto (Neutral)</h4>
+                        <p class="text-xs text-gray-500 font-mono mt-1">HEX: #000000</p>
+                        <p class="text-xs text-gray-500 font-mono">RGB: 0, 0, 0</p>
+                        <p class="text-xs text-gray-400 mt-2">Títulos grandes, Textos pesados.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Usage Demo -->
+            <div class="mt-16 bg-white rounded-3xl p-8 border border-gray-100 shadow-sm flex flex-col md:flex-row gap-8 items-center gsap-section">
+                <div class="flex-1">
+                    <h3 class="font-cursive text-4xl text-brand-pink mb-2">Combinações Harmoniosas</h3>
+                    <p class="text-gray-600 font-light">As cores foram escolhidas para garantir contraste adequado e passar uma sensação de leveza, profissionalismo e criatividade.</p>
+                </div>
+                <div class="flex-1 flex gap-4 w-full h-32 rounded-2xl overflow-hidden">
+                    <div class="flex-1 bg-brand-pink relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-tr from-black/20 to-transparent"></div>
+                    </div>
+                    <div class="flex-1 bg-brand-blue relative overflow-hidden">
+                         <div class="absolute inset-0 bg-gradient-to-tr from-white/40 to-transparent"></div>
+                    </div>
+                    <div class="flex-1 bg-brand-yellow relative overflow-hidden">
+                         <div class="absolute inset-0 bg-gradient-to-tr from-brand-pink/20 to-transparent"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Componentes UI -->
+    <section id="componentes" class="py-24 px-6 border-t border-gray-100 overflow-hidden">
+        <div class="max-w-7xl mx-auto">
+            <div class="mb-16">
+                <span class="text-brand-yellow font-bold tracking-widest uppercase text-xs mb-2 block text-stroke-black">Seção 03</span>
+                <h2 class="text-4xl md:text-5xl font-light tracking-tight">Componentes UI</h2>
+                <p class="text-gray-500 mt-4 max-w-2xl font-light">Elementos interativos projetados com micro-animações, sombras suaves e estados claros para uma experiência excepcional.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                
+                <!-- Buttons -->
+                <div class="space-y-8 gsap-section">
+                    <h3 class="text-sm font-bold uppercase tracking-widest text-gray-400 border-b border-gray-100 pb-2">Botões</h3>
+                    
+                    <div class="flex flex-wrap gap-6 items-center bg-gray-50 p-8 rounded-3xl border border-gray-100">
+                        <!-- Primary -->
+                        <button class="bg-brand-pink text-white px-6 py-3 rounded-full font-medium hover:bg-brand-black hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                            Primário
+                        </button>
+                        
+                        <!-- Secondary -->
+                        <button class="bg-brand-blue text-white px-6 py-3 rounded-full font-medium hover:bg-brand-blue/80 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                            Secundário
+                        </button>
+                        
+                        <!-- Outline -->
+                        <button class="border-2 border-brand-pink text-brand-pink px-6 py-3 rounded-full font-medium hover:bg-brand-pink hover:text-white transition-all duration-300">
+                            Outline
+                        </button>
+                        
+                        <!-- Ghost with Icon -->
+                        <button class="text-gray-600 px-6 py-3 rounded-full font-medium hover:bg-gray-200 flex items-center gap-2 transition-colors duration-300">
+                            <iconify-icon icon="solar:download-linear" class="text-lg"></iconify-icon> Baixar
+                        </button>
+                        
+                        <!-- Floating Action -->
+                        <button class="w-14 h-14 bg-brand-yellow text-brand-black rounded-full shadow-[0_10px_20px_rgba(249,227,133,0.5)] flex items-center justify-center hover:scale-110 transition-transform duration-300">
+                            <iconify-icon icon="solar:add-circle-linear" class="text-2xl"></iconify-icon>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Inputs & Controls -->
+                <div class="space-y-8 gsap-section">
+                    <h3 class="text-sm font-bold uppercase tracking-widest text-gray-400 border-b border-gray-100 pb-2">Campos e Controles</h3>
+                    
+                    <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm space-y-6 relative overflow-hidden">
+                        <!-- Decorative background element -->
+                        <div class="absolute -right-12 -bottom-12 w-40 h-40 bg-brand-blue/10 rounded-full blur-2xl"></div>
+                        
+                        <!-- Text Input -->
+                        <div class="relative w-full z-10">
+                            <label class="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">E-mail</label>
+                            <div class="relative">
+                                <iconify-icon icon="solar:letter-linear" class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg"></iconify-icon>
+                                <input type="email" placeholder="contato@exemplo.com" class="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 pl-12 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-brand-pink/50 focus:border-brand-pink transition-all duration-300">
+                            </div>
+                        </div>
+                        
+                        <!-- Select -->
+                        <div class="relative w-full z-10">
+                            <label class="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Assunto</label>
+                            <div class="relative">
+                                <select class="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 px-4 text-sm appearance-none focus:outline-none focus:ring-2 focus:ring-brand-blue/50 focus:border-brand-blue transition-all duration-300 cursor-pointer">
+                                    <option>Orçamento</option>
+                                    <option>Dúvidas</option>
+                                    <option>Outros</option>
+                                </select>
+                                <iconify-icon icon="solar:alt-arrow-down-linear" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"></iconify-icon>
+                            </div>
+                        </div>
+                        
+                        <!-- Toggle -->
+                        <div class="flex items-center justify-between z-10 relative">
+                            <span class="text-sm font-medium text-gray-700">Receber notificações</span>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" value="" class="sr-only peer" checked>
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-pink"></div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cards -->
+                <div class="space-y-8 lg:col-span-2 gsap-section">
+                    <h3 class="text-sm font-bold uppercase tracking-widest text-gray-400 border-b border-gray-100 pb-2">Cartões (Cards)</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <!-- Image Card -->
+                        <div class="bg-white rounded-3xl overflow-hidden border border-gray-100 shadow-sm group cursor-pointer hover:shadow-xl hover:-translate-y-2 transition-all duration-500">
+                            <div class="aspect-[4/3] overflow-hidden relative">
+                                <img src="templates/bloomava-creative-93.aura.build/bloomava-creative-93.aura.build/assets/fb48895a1c98e569_eea96a29-6967-4b15-a0c3-bfdf55.jpg" alt="Card Image" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" onerror="this.src='https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&q=80'">
+                                <div class="absolute top-4 left-4">
+                                    <span class="bg-white/90 backdrop-blur-sm text-brand-black text-xs font-bold uppercase px-3 py-1 rounded-full">Novidade</span>
+                                </div>
+                            </div>
+                            <div class="p-6">
+                                <h4 class="text-xl font-bold mb-2 group-hover:text-brand-pink transition-colors">Design Estratégico</h4>
+                                <p class="text-sm text-gray-500 font-light line-clamp-2">Criamos experiências que unem propósito funcional com clareza estética.</p>
+                                <div class="mt-4 pt-4 border-t border-gray-50 flex items-center justify-between">
+                                    <span class="text-xs text-gray-400">Há 2 dias</span>
+                                    <iconify-icon icon="solar:arrow-right-up-linear" class="text-gray-400 group-hover:text-brand-pink text-xl"></iconify-icon>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stat Card -->
+                        <div class="bg-brand-black text-white rounded-3xl p-8 relative overflow-hidden group">
+                            <!-- Background effect -->
+                            <div class="absolute inset-0 bg-gradient-to-br from-brand-blue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                            
+                            <iconify-icon icon="solar:chart-square-linear" class="text-brand-blue text-4xl mb-6 relative z-10"></iconify-icon>
+                            <h4 class="text-6xl font-light mb-2 relative z-10">40<span class="text-brand-blue">+</span></h4>
+                            <p class="text-sm text-gray-400 relative z-10">Projetos entregues com sucesso no último trimestre.</p>
+                            
+                            <div class="absolute bottom-0 right-0 w-32 h-32 bg-brand-pink blur-[80px] opacity-30 rounded-full"></div>
+                        </div>
+
+                        <!-- Minimal Card -->
+                        <div class="bg-brand-pink/5 rounded-3xl p-8 border border-brand-pink/20 hover:bg-brand-pink/10 transition-colors duration-300 flex flex-col justify-center text-center">
+                            <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm text-brand-pink">
+                                <iconify-icon icon="solar:heart-linear" class="text-2xl"></iconify-icon>
+                            </div>
+                            <h4 class="font-cursive text-3xl text-brand-pink mb-2">Completamente<br>Apaixonante</h4>
+                            <p class="text-sm text-gray-600 font-light">Feito com cuidado aos detalhes mínimos.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modals, Badges, Tooltips -->
+                <div class="space-y-8 lg:col-span-2 gsap-section">
+                    <h3 class="text-sm font-bold uppercase tracking-widest text-gray-400 border-b border-gray-100 pb-2">Feedback Visual</h3>
+                    
+                    <div class="bg-white p-8 md:p-12 rounded-3xl border border-gray-100 shadow-sm flex flex-col md:flex-row gap-12 items-center justify-between relative overflow-hidden">
+                         <div class="absolute left-0 top-0 w-full h-1 bg-gradient-to-r from-brand-pink via-brand-blue to-brand-yellow"></div>
+                         
+                        <!-- Badges -->
+                        <div class="flex-1 space-y-4 w-full">
+                            <h4 class="text-sm font-bold text-gray-800 mb-4">Badges & Tags</h4>
+                            <div class="flex flex-wrap gap-3">
+                                <span class="bg-brand-pink/10 text-brand-pink px-3 py-1 rounded-md text-xs font-bold uppercase tracking-wider">Novo</span>
+                                <span class="bg-brand-blue/10 text-brand-blue px-3 py-1 rounded-md text-xs font-bold uppercase tracking-wider">Em Progresso</span>
+                                <span class="bg-brand-yellow/20 text-brand-black px-3 py-1 rounded-md text-xs font-bold uppercase tracking-wider">Atenção</span>
+                                <span class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs font-medium border border-gray-200">#design</span>
+                            </div>
+                        </div>
+
+                        <!-- Tooltip Demo -->
+                        <div class="flex-1 flex justify-center w-full">
+                            <div class="relative group inline-block">
+                                <button class="border-2 border-dashed border-gray-300 px-6 py-3 rounded-xl text-gray-500 hover:border-brand-blue hover:text-brand-blue transition-colors">
+                                    Passe o mouse
+                                </button>
+                                <!-- Tooltip -->
+                                <div class="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-10 transform group-hover:translate-y-0 translate-y-2">
+                                    <div class="bg-black text-white text-xs font-medium p-3 rounded-lg text-center shadow-xl relative tooltip-arrow">
+                                        Uma dica valiosa aparece suavemente aqui.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Modal Trigger Demo -->
+                        <div class="flex-1 flex justify-end w-full">
+                            <div class="bg-gray-50 p-6 rounded-2xl border border-gray-200 max-w-sm w-full relative">
+                                <button class="absolute top-4 right-4 text-gray-400 hover:text-brand-pink transition-colors">
+                                    <iconify-icon icon="solar:close-circle-linear" class="text-xl"></iconify-icon>
+                                </button>
+                                <div class="w-12 h-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center mb-4">
+                                    <iconify-icon icon="solar:check-read-linear" class="text-2xl"></iconify-icon>
+                                </div>
+                                <h4 class="font-bold text-lg mb-1">Ação Concluída</h4>
+                                <p class="text-sm text-gray-500 font-light mb-4">Seu design foi atualizado com sucesso e salvo na nuvem.</p>
+                                <button class="w-full bg-brand-black text-white py-2 rounded-lg text-sm font-medium hover:bg-gray-800 transition-colors">Continuar</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Ícones -->
+    <section id="icones" class="py-24 px-6 bg-black text-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="mb-16 text-center">
+                <span class="text-brand-blue font-bold tracking-widest uppercase text-xs mb-2 block">Seção 04</span>
+                <h2 class="text-4xl md:text-5xl font-light tracking-tight mb-4">Iconografia</h2>
+                <p class="text-gray-400 font-light max-w-lg mx-auto">Utilizamos o pacote <span class="text-brand-pink">Solar Icons</span> via Iconify para garantir traços consistentes, curvos e amigáveis.</p>
+            </div>
+
+            <div class="grid grid-cols-3 md:grid-cols-6 lg:grid-cols-8 gap-8 text-center gsap-section">
+                <!-- Icon list generated via script or repeated -->
+                <div class="group flex flex-col items-center gap-3">
+                    <div class="w-16 h-16 bg-gray-900 rounded-2xl flex items-center justify-center text-3xl text-gray-400 group-hover:text-brand-pink group-hover:-translate-y-2 group-hover:bg-brand-pink/10 transition-all duration-300 border border-gray-800 group-hover:border-brand-pink/30">
+                        <iconify-icon icon="solar:home-smile-linear"></iconify-icon>
+                    </div>
+                </div>
+                <div class="group flex flex-col items-center gap-3">
+                    <div class="w-16 h-16 bg-gray-900 rounded-2xl flex items-center justify-center text-3xl text-gray-400 group-hover:text-brand-blue group-hover:-translate-y-2 group-hover:bg-brand-blue/10 transition-all duration-300 border border-gray-800 group-hover:border-brand-blue/30">
+                        <iconify-icon icon="solar:user-linear"></iconify-icon>
+                    </div>
+                </div>
+                <div class="group flex flex-col items-center gap-3">
+                    <div class="w-16 h-16 bg-gray-900 rounded-2xl flex items-center justify-center text-3xl text-gray-400 group-hover:text-brand-yellow group-hover:-translate-y-2 group-hover:bg-brand-yellow/10 transition-all duration-300 border border-gray-800 group-hover:border-brand-yellow/30">
+                        <iconify-icon icon="solar:star-linear"></iconify-icon>
+                    </div>
+                </div>
+                <div class="group flex flex-col items-center gap-3">
+                    <div class="w-16 h-16 bg-gray-900 rounded-2xl flex items-center justify-center text-3xl text-gray-400 group-hover:text-brand-pink group-hover:-translate-y-2 group-hover:bg-brand-pink/10 transition-all duration-300 border border-gray-800 group-hover:border-brand-pink/30">
+                        <iconify-icon icon="solar:settings-linear"></iconify-icon>
+                    </div>
+                </div>
+                <div class="group flex flex-col items-center gap-3">
+                    <div class="w-16 h-16 bg-gray-900 rounded-2xl flex items-center justify-center text-3xl text-gray-400 group-hover:text-brand-blue group-hover:-translate-y-2 group-hover:bg-brand-blue/10 transition-all duration-300 border border-gray-800 group-hover:border-brand-blue/30">
+                        <iconify-icon icon="solar:magnifer-linear"></iconify-icon>
+                    </div>
+                </div>
+                <div class="group flex flex-col items-center gap-3">
+                    <div class="w-16 h-16 bg-gray-900 rounded-2xl flex items-center justify-center text-3xl text-gray-400 group-hover:text-brand-yellow group-hover:-translate-y-2 group-hover:bg-brand-yellow/10 transition-all duration-300 border border-gray-800 group-hover:border-brand-yellow/30">
+                        <iconify-icon icon="solar:bell-linear"></iconify-icon>
+                    </div>
+                </div>
+                 <div class="group flex flex-col items-center gap-3">
+                    <div class="w-16 h-16 bg-gray-900 rounded-2xl flex items-center justify-center text-3xl text-gray-400 group-hover:text-brand-pink group-hover:-translate-y-2 group-hover:bg-brand-pink/10 transition-all duration-300 border border-gray-800 group-hover:border-brand-pink/30">
+                        <iconify-icon icon="solar:document-text-linear"></iconify-icon>
+                    </div>
+                </div>
+                <div class="group flex flex-col items-center gap-3 hidden md:flex">
+                    <div class="w-16 h-16 bg-gray-900 rounded-2xl flex items-center justify-center text-3xl text-gray-400 group-hover:text-white group-hover:-translate-y-2 group-hover:bg-white/10 transition-all duration-300 border border-gray-800 group-hover:border-white/30">
+                        <iconify-icon icon="solar:widget-add-linear"></iconify-icon>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-12 text-center">
+                 <button class="border border-gray-800 text-gray-300 px-6 py-2 rounded-full text-sm hover:bg-white hover:text-black transition-colors duration-300">
+                    Ver todos os ícones
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 px-6 border-t border-gray-100 text-center">
+        <div class="flex items-center justify-center gap-2 text-brand-black opacity-50 mb-4">
+            <iconify-icon icon="solar:star-fall-bold-duotone" class="text-xl"></iconify-icon>
+            <span class="font-cursive text-xl font-bold">Lidiane</span>
+        </div>
+        <p class="text-sm text-gray-400">Design System 2.0 • Desenvolvido com inteligência e precisão estética.</p>
+    </footer>
+
+    <!-- GSAP Initialization Script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", (event) => {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Hero animations
+            gsap.to(".gsap-reveal", {
+                y: 0,
+                opacity: 1,
+                scale: 1,
+                duration: 1,
+                stagger: 0.2,
+                ease: "power3.out"
+            });
+
+            // Scroll reveal for sections
+            const sections = document.querySelectorAll('.gsap-section');
+            sections.forEach(sec => {
+                gsap.fromTo(sec, 
+                    { opacity: 0, y: 50 },
+                    {
+                        scrollTrigger: {
+                            trigger: sec,
+                            start: "top 85%", // When the top of the section hits 85% of the viewport height
+                            toggleActions: "play none none reverse"
+                        },
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.8,
+                        ease: "power2.out"
+                    }
+                );
+            });
+
+            // Navbar background change on scroll
+            const navbar = document.querySelector('nav');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('shadow-sm');
+                    navbar.style.background = 'rgba(255, 255, 255, 0.9)';
+                } else {
+                    navbar.classList.remove('shadow-sm');
+                    navbar.style.background = 'rgba(255, 255, 255, 0.7)';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

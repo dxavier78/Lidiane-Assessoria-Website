@@ -1,0 +1,6 @@
+- **Tailwind CSS** (v3.4.17 CDN runtime) — utility-first CSS framework powering all layout, spacing, typography, color, and responsive behavior
+- **Iconify Icon** (web component) — renders all interface icons from the `solar:*` and `ri:*` icon sets via the `<iconify-icon>` custom element
+- **GSAP** (v3.12.2) — animation engine driving the hero search-bar entrance and section fade-up reveals
+- **GSAP ScrollTrigger** — scroll-driven trigger plugin used to play `.gsap-section` reveals as they enter the viewport
+- **Google Fonts (Inter)** — primary sans-serif typeface loaded via Google Fonts CSS
+- **Unsplash / Supabase Storage images** — remote photography (locally cached) used in hero, neighbourhood, and listing cards

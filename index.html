@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lidiane - Transformamos Sonhos</title>
+    
+    <!-- Fonts: Montserrat & Rochester -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Rochester&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Montserrat', 'sans-serif'],
+                        cursive: ['Rochester', 'cursive'],
+                    },
+                    colors: {
+                        brand: {
+                            pink: '#E87C93',
+                            blue: '#7DDBF4',
+                            yellow: '#F9E385',
+                            white: '#FFFFFF',
+                            black: '#000000',
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'spin-slow': 'spin 12s linear infinite',
+                        'balloon': 'balloon 4s ease-in-out infinite',
+                        'shimmer': 'shimmer 2s infinite',
+                        'sparkle': 'sparkle 1.5s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        balloon: {
+                            '0%, 100%': { transform: 'translateY(0) rotate(-3deg) scale(1)' },
+                            '50%': { transform: 'translateY(-15px) rotate(3deg) scale(1.05)' },
+                        },
+                        shimmer: {
+                            '0%': { transform: 'translateX(-150%) skewX(-20deg)' },
+                            '100%': { transform: 'translateX(250%) skewX(-20deg)' },
+                        },
+                        sparkle: {
+                            '0%, 100%': { transform: 'scale(0) rotate(0deg)', opacity: '0' },
+                            '50%': { transform: 'scale(1) rotate(90deg)', opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- GSAP & ScrollTrigger & Flip -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Flip.min.js"></script>
+    
+    <!-- Lenis for Smooth Scrolling -->
+    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/bundled/lenis.min.js"></script>
+    
+    <!-- SplitType -->
+    <script src="https://unpkg.com/split-type"></script>
+    
+    <!-- Iconify -->
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+
+    <style>
+        body {
+            background-color: #FFFFFF;
+            color: #000000;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Typography */
+        .text-stroke {
+            -webkit-text-stroke: 2px #E87C93;
+            color: transparent;
+            text-shadow: 0 0 40px rgba(232, 124, 147, 0.4);
+        }
+
+        /* Glassmorphism */
+        .glass {
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Splitting Chars for GSAP */
+        .char {
+            display: inline-block;
+            transform: translateY(110%);
+            opacity: 0;
+        }
+
+        /* GPU Acceleration */
+        .gpu-accel {
+            transform: translateZ(0);
+            will-change: transform, opacity;
+        }
+
+        /* 3D Card Container */
+        .perspective-container {
+            perspective: 2000px;
+            transform-style: preserve-3d;
+        }
+        
+        .tilt-card {
+            transform-style: preserve-3d;
+            will-change: transform;
+            transition: transform 0.1s; /* Para suavizar a interpolação do mouse */
+        }
+
+        /* Efeito de Overlay sobre o vídeo para look premium (Active Theory style) */
+        .video-overlay {
+            background: linear-gradient(135deg, rgba(232, 124, 147, 0.2) 0%, rgba(125, 219, 244, 0.1) 100%);
+            mix-blend-mode: overlay;
+        }
+
+        /* Oculta scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #E87C93; border-radius: 4px; }
+    </style>
+</head>
+<body class="selection:bg-brand-pink selection:text-white relative">
+
+    <!-- Background Animado Premium -->
+    <div class="fixed inset-0 pointer-events-none z-[-1] overflow-hidden">
+        <div class="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-brand-pink opacity-[0.06] blur-[100px] animate-float gpu-accel"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[40vw] h-[40vw] rounded-full bg-brand-blue opacity-[0.08] blur-[100px] animate-float gpu-accel" style="animation-delay: -2s"></div>
+        <div class="absolute top-[40%] left-[60%] w-[30vw] h-[30vw] rounded-full bg-brand-yellow opacity-[0.06] blur-[80px] animate-pulse-slow gpu-accel"></div>
+    </div>
+
+    <!-- Nav Minimalista -->
+    <nav class="fixed w-full z-50 transition-all duration-300 bg-transparent" aria-label="Navegação">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-4 text-brand-black group cursor-pointer">
+                <!-- Container do Símbolo Animado -->
+                <div class="relative w-16 h-16 md:w-16 md:h-16 flex items-center justify-center group-hover:scale-110 transition-transform duration-500 shrink-0">
+                    <!-- Círculo Animado em Volta -->
+                    <div class="absolute inset-0 rounded-full border-2 border-brand-pink/60 border-dashed animate-spin-slow"></div>
+                    <div class="absolute inset-[-4px] rounded-full border border-brand-blue/30 animate-spin-slow" style="animation-direction: reverse; animation-duration: 15s;"></div>
+                    
+                    <!-- Imagem da Marca d'água flutuando -->
+                    <img src="./assets/marca%20dagua/Lidiane%20s%C3%ADmbolo.png" alt="Símbolo Lidiane" class="w-12 h-12 md:w-14 md:h-14 object-contain animate-balloon drop-shadow-md z-10 relative">
+                </div>
+
+                <div class="flex items-center ml-1">
+                    <span class="font-cursive text-3xl md:text-4xl leading-none text-white drop-shadow-md pt-1">Lidiane</span>
+                </div>
+            </div>
+            <a href="#cta" class="bg-brand-black text-white px-6 py-2.5 rounded-full text-sm font-semibold hover:bg-brand-pink hover:shadow-[0_0_20px_rgba(232,124,147,0.6)] transition-all duration-300 transform hover:scale-105">
+                Fale Conosco
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Container -->
+    <div id="hero-container" class="w-full relative bg-black">
+        
+        <!-- Hero Sticky (Pin layer) -->
+        <main class="hero-pin h-screen w-full relative overflow-hidden" style="perspective: 1500px;">
+            
+            <!-- Camada 1: Video -->
+            <div class="absolute inset-0 z-0 w-full h-full layer-video">
+                <video 
+                    id="hero-video" 
+                    class="w-full h-full object-cover object-[50%_10%]" 
+                    autoplay loop muted playsinline preload="auto"
+                    src="./assets/video/WS_lidiane_hero.mp4">
+                </video>
+            </div>
+            
+            <!-- Camada 2: Overlay de Gradientes -->
+            <div class="absolute inset-0 z-10 layer-gradients pointer-events-none">
+                <!-- Máscara Cinematográfica obrigatória -->
+                <div class="absolute inset-0" style="background: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.1), rgba(0,0,0,0.5));"></div>
+                <div class="absolute inset-0 bg-brand-pink/20 mix-blend-overlay"></div>
+            </div>
+
+            <!-- Camada 3: Conteúdo (Textos, CTAs) -->
+            <div class="absolute inset-0 z-20 flex flex-col items-center justify-center layer-content pointer-events-none">
+                
+                <!-- Glow Dinâmico atrás do texto -->
+                <div class="hero-glow absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] md:w-[60vw] h-[60vh] bg-brand-pink/50 blur-[150px] rounded-full opacity-0"></div>
+
+                <!-- Text Wrapper -->
+                <div class="hero-text-wrapper max-w-4xl mx-auto px-6 w-full relative flex flex-col items-center text-center pointer-events-auto">
+                    
+                    <!-- Eyebrow: Serviço (Editorial Style) -->
+                    <div class="overflow-hidden mb-6 opacity-90">
+                        <p class="flex items-center justify-center gap-4 font-sans text-[9px] md:text-[11px] font-bold uppercase tracking-[0.3em] text-white drop-shadow-md">
+                            <span class="w-8 md:w-16 h-[1px] bg-brand-pink/80"></span>
+                            Assessoria de Eventos Infantis
+                            <span class="w-8 md:w-16 h-[1px] bg-brand-pink/80"></span>
+                        </p>
+                    </div>
+
+                    <!-- Headline -->
+                    <h1 class="hero-title text-5xl md:text-7xl lg:text-[5.5rem] font-black tracking-tighter leading-[0.9] text-white drop-shadow-2xl">
+                        <div class="pb-2 px-4 -mx-4"><span class="split-text inline-block">Transformamos</span></div>
+                        <div class="mt-2 px-4 -mx-4"><span class="split-accent font-cursive font-normal text-brand-pink text-7xl md:text-9xl lg:text-[9rem] block mt-[-10px] inline-block drop-shadow-[0_0_40px_rgba(232,124,147,0.6)]">Sonhos</span></div>
+                    </h1>
+                    
+                    <!-- Texto -->
+                    <p class="hero-paragraph text-lg md:text-xl text-white/90 font-light max-w-2xl mx-auto mt-8 leading-relaxed drop-shadow-lg">
+                        Em momentos inesquecíveis. Cuidamos de cada detalhe com organização impecável para criar experiências encantadoras.
+                    </p>
+                    
+                    <!-- CTAs -->
+                    <div class="hero-ctas flex flex-wrap justify-center gap-6 mt-10">
+                        <a href="#cta" class="relative bg-brand-pink text-white px-10 py-4 rounded-full font-bold flex items-center justify-center gap-3 hover:bg-white hover:text-brand-pink transition-all duration-300 shadow-[0_0_30px_rgba(232,124,147,0.5)] group text-lg overflow-hidden">
+                            <div class="absolute inset-0 -translate-x-full w-1/2 bg-gradient-to-r from-transparent via-brand-pink/50 to-transparent skew-x-[-20deg] group-hover:animate-shimmer pointer-events-none"></div>
+                            <span class="relative z-10">Planejar Experiência</span>
+                            <iconify-icon icon="solar:arrow-right-linear" class="group-hover:translate-x-1 transition-transform relative z-10"></iconify-icon>
+                        </a>
+                        <a href="#galeria" class="relative glass text-white px-10 py-4 rounded-full font-bold flex items-center justify-center gap-3 hover:bg-white/20 transition-all duration-300 text-lg border border-white/30 overflow-hidden group">
+                            <div class="absolute inset-0 -translate-x-full w-1/2 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-[-20deg] group-hover:animate-shimmer pointer-events-none"></div>
+                            <span class="relative z-10">Ver Portfólio</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+        </main>
+    </div>
+
+    <!-- Seção 2: O Processo -->
+    <section id="processo" class="relative w-full bg-[#F4F1EA] py-32 px-6 overflow-hidden z-20">
+        <div class="max-w-7xl mx-auto">
+            <!-- Grid container -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-12 gap-y-16">
+                
+                <!-- Passo 1 -->
+                <div class="process-step flex flex-col">
+                    <!-- Número e Linha -->
+                    <div class="flex items-center gap-4 mb-6">
+                        <span class="font-cursive text-7xl text-brand-pink leading-none drop-shadow-sm">01</span>
+                        <div class="flex-grow h-[1px] bg-brand-pink/30"></div>
+                    </div>
+                    <!-- Título -->
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-sans text-2xl font-black text-brand-black tracking-tight">Sonhar</h3>
+                        <iconify-icon icon="solar:arrow-right-linear" class="text-brand-black/50 text-xl"></iconify-icon>
+                    </div>
+                    <!-- Texto -->
+                    <p class="font-sans text-brand-black/70 text-sm font-medium leading-relaxed mb-10">
+                        Entendemos a essência, o tema dos sonhos e os desejos do seu filho para desenhar um conceito único e mágico para a festa.
+                    </p>
+                    <!-- Imagem do Passo 1 -->
+                    <div class="w-full aspect-square rounded-2xl bg-white/40 border border-white/60 shadow-lg flex items-center justify-center group overflow-hidden relative">
+                        <img src="./assets/fotos/sonhar02.jpeg" alt="Passo 1 - Sonhar" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out">
+                        <div class="absolute inset-0 bg-brand-pink/10 mix-blend-overlay group-hover:opacity-0 transition-opacity duration-500 pointer-events-none"></div>
+                    </div>
+                </div>
+
+                <!-- Passo 2 -->
+                <div class="process-step flex flex-col">
+                    <!-- Número e Linha -->
+                    <div class="flex items-center gap-4 mb-6">
+                        <span class="font-cursive text-7xl text-brand-pink leading-none drop-shadow-sm">02</span>
+                        <div class="flex-grow h-[1px] bg-brand-pink/30"></div>
+                    </div>
+                    <!-- Título -->
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-sans text-2xl font-black text-brand-black tracking-tight">Planejar</h3>
+                        <iconify-icon icon="solar:arrow-right-linear" class="text-brand-black/50 text-xl"></iconify-icon>
+                    </div>
+                    <!-- Texto -->
+                    <p class="font-sans text-brand-black/70 text-sm font-medium leading-relaxed mb-10">
+                        Selecionamos os fornecedores perfeitos, alinhamos orçamentos e estruturamos cada pequeno detalhe com precisão.
+                    </p>
+                    <!-- Imagem do Passo 2 -->
+                    <div class="w-full aspect-square rounded-2xl bg-white/40 border border-white/60 shadow-lg flex items-center justify-center group overflow-hidden relative">
+                        <img src="./assets/fotos/planejar02.jpeg" alt="Passo 2 - Planejar" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out">
+                        <div class="absolute inset-0 bg-brand-pink/10 mix-blend-overlay group-hover:opacity-0 transition-opacity duration-500 pointer-events-none"></div>
+                    </div>
+                </div>
+
+                <!-- Passo 3 -->
+                <div class="process-step flex flex-col">
+                    <!-- Número e Linha -->
+                    <div class="flex items-center gap-4 mb-6">
+                        <span class="font-cursive text-7xl text-brand-pink leading-none drop-shadow-sm">03</span>
+                        <div class="flex-grow h-[1px] bg-brand-pink/30"></div>
+                    </div>
+                    <!-- Título -->
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-sans text-2xl font-black text-brand-black tracking-tight">Orquestrar</h3>
+                        <iconify-icon icon="solar:arrow-right-linear" class="text-brand-black/50 text-xl"></iconify-icon>
+                    </div>
+                    <!-- Texto -->
+                    <p class="font-sans text-brand-black/70 text-sm font-medium leading-relaxed mb-10">
+                        Direcionamos toda a logística, montagem e cronograma nos bastidores para garantir que nada saia do tom previsto.
+                    </p>
+                    <!-- Imagem do Passo 3 -->
+                    <div class="w-full aspect-square rounded-2xl bg-white/40 border border-white/60 shadow-lg flex items-center justify-center group overflow-hidden relative">
+                        <img src="./assets/fotos/orchestrar02.jpeg" alt="Passo 3 - Orquestrar" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out">
+                        <div class="absolute inset-0 bg-brand-pink/10 mix-blend-overlay group-hover:opacity-0 transition-opacity duration-500 pointer-events-none"></div>
+                    </div>
+                </div>
+
+                <!-- Passo 4 -->
+                <div class="process-step flex flex-col">
+                    <!-- Número e Linha -->
+                    <div class="flex items-center gap-4 mb-6">
+                        <span class="font-cursive text-7xl text-brand-pink leading-none drop-shadow-sm">04</span>
+                        <div class="flex-grow h-[1px] bg-brand-pink/30"></div>
+                    </div>
+                    <!-- Título -->
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-sans text-2xl font-black text-brand-black tracking-tight">Celebrar</h3>
+                        <iconify-icon icon="solar:arrow-right-linear" class="text-brand-black/50 text-xl"></iconify-icon>
+                    </div>
+                    <!-- Texto -->
+                    <p class="font-sans text-brand-black/70 text-sm font-medium leading-relaxed mb-10">
+                        Entregamos a festa impecável. Nossa equipe cuida de tudo para que você apenas sorria, tire fotos e viva o momento.
+                    </p>
+                    <!-- Imagem do Passo 4 -->
+                    <div class="w-full aspect-square rounded-2xl bg-white/40 border border-white/60 shadow-lg flex items-center justify-center group overflow-hidden relative">
+                        <img src="./assets/fotos/celebrar.JPG" alt="Passo 4 - Celebrar" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out">
+                        <div class="absolute inset-0 bg-brand-pink/10 mix-blend-overlay group-hover:opacity-0 transition-opacity duration-500 pointer-events-none"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção 3: Serviços -->
+    <section id="servicos" class="relative w-full bg-brand-black text-white py-32 px-6 overflow-hidden z-20">
+        <!-- Fundo Abstrato (Glow e Profundidade) -->
+        <div class="absolute inset-0 pointer-events-none">
+            <!-- Glow Rosa -->
+            <div class="absolute top-0 right-0 w-[80vw] h-[80vw] md:w-[40vw] md:h-[40vw] bg-brand-pink/20 rounded-full blur-[150px] mix-blend-screen translate-x-1/3 -translate-y-1/3"></div>
+            <!-- Glow Azul -->
+            <div class="absolute bottom-0 left-0 w-[80vw] h-[80vw] md:w-[40vw] md:h-[40vw] bg-brand-blue/20 rounded-full blur-[150px] mix-blend-screen -translate-x-1/3 translate-y-1/3"></div>
+        </div>
+
+        <!-- Partículas Decorativas (Parallax) -->
+        <div class="absolute inset-0 pointer-events-none overflow-hidden parallax-particles z-0">
+            <!-- Estrela -->
+            <iconify-icon icon="solar:star-fall-bold-duotone" class="particle absolute top-[10%] left-[15%] text-brand-yellow/30 text-6xl" data-speed="1.2"></iconify-icon>
+            <!-- Balão -->
+            <iconify-icon icon="solar:balloon-bold-duotone" class="particle absolute top-[40%] right-[10%] text-brand-pink/30 text-7xl" data-speed="0.8"></iconify-icon>
+            <!-- Confete -->
+            <iconify-icon icon="solar:confetti-bold-duotone" class="particle absolute bottom-[20%] left-[10%] text-brand-blue/30 text-5xl" data-speed="1.5"></iconify-icon>
+            <!-- Fita -->
+            <iconify-icon icon="solar:ticker-star-bold-duotone" class="particle absolute bottom-[30%] right-[20%] text-white/20 text-6xl" data-speed="0.5"></iconify-icon>
+        </div>
+
+        <div class="max-w-7xl mx-auto relative z-10">
+            <div class="lg:grid lg:grid-cols-12 gap-16 items-start">
+                
+                <!-- Coluna Esquerda: Título (Sticky no Desktop) -->
+                <div class="lg:col-span-5 lg:sticky lg:top-32 mb-16 lg:mb-0">
+                    <p class="font-sans text-[11px] font-bold uppercase tracking-[0.3em] text-brand-pink mb-6 flex items-center gap-4">
+                        <span class="w-12 h-[1px] bg-brand-pink"></span> Nossos Serviços
+                    </p>
+                    <h2 class="text-5xl md:text-6xl font-black tracking-tighter leading-[1.1] mb-8">
+                        Nós cuidamos dos detalhes. <br>
+                        <span class="font-cursive text-brand-blue font-normal text-6xl md:text-7xl block mt-2 drop-shadow-md">Você vive os momentos.</span>
+                    </h2>
+                    <p class="text-lg text-white/70 font-light leading-relaxed max-w-md">
+                        Transformamos ideias em experiências memoráveis através de planejamento, organização e acompanhamento completo de cada etapa da festa.
+                    </p>
+                </div>
+
+                <!-- Coluna Direita: Cards de Serviços -->
+                <div class="lg:col-span-7 flex flex-col gap-8">
+                    
+                    <!-- Card 1 -->
+                    <div class="service-card group relative p-8 md:p-10 rounded-3xl bg-white/[0.03] backdrop-blur-xl border border-white/10 overflow-hidden transition-all duration-500 hover:scale-[1.03] hover:border-brand-pink/40 hover:bg-white/[0.05]">
+                        <div class="absolute top-0 right-0 w-48 h-48 bg-brand-pink/20 rounded-full blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                        <iconify-icon icon="solar:clipboard-list-bold-duotone" class="text-5xl text-brand-pink mb-6 relative z-10 drop-shadow-lg group-hover:scale-110 transition-transform duration-500"></iconify-icon>
+                        <h3 class="text-2xl font-black text-white mb-4 relative z-10">Planejamento Completo</h3>
+                        <p class="text-white/60 font-light leading-relaxed relative z-10">Da concepção à execução, organizamos cada detalhe para que tudo aconteça conforme o planejado.</p>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="service-card group relative p-8 md:p-10 rounded-3xl bg-white/[0.03] backdrop-blur-xl border border-white/10 overflow-hidden transition-all duration-500 hover:scale-[1.03] hover:border-brand-yellow/40 hover:bg-white/[0.05]">
+                        <div class="absolute top-0 right-0 w-48 h-48 bg-brand-yellow/20 rounded-full blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                        <iconify-icon icon="solar:magic-stick-3-bold-duotone" class="text-5xl text-brand-yellow mb-6 relative z-10 drop-shadow-lg group-hover:scale-110 transition-transform duration-500"></iconify-icon>
+                        <h3 class="text-2xl font-black text-white mb-4 relative z-10">Decoração Personalizada</h3>
+                        <p class="text-white/60 font-light leading-relaxed relative z-10">Projetos exclusivos que transformam o tema escolhido em um cenário encantador.</p>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="service-card group relative p-8 md:p-10 rounded-3xl bg-white/[0.03] backdrop-blur-xl border border-white/10 overflow-hidden transition-all duration-500 hover:scale-[1.03] hover:border-brand-blue/40 hover:bg-white/[0.05]">
+                        <div class="absolute top-0 right-0 w-48 h-48 bg-brand-blue/20 rounded-full blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                        <iconify-icon icon="solar:users-group-two-rounded-bold-duotone" class="text-5xl text-brand-blue mb-6 relative z-10 drop-shadow-lg group-hover:scale-110 transition-transform duration-500"></iconify-icon>
+                        <h3 class="text-2xl font-black text-white mb-4 relative z-10">Gestão de Fornecedores</h3>
+                        <p class="text-white/60 font-light leading-relaxed relative z-10">Coordenamos buffet, fotografia, atrações, lembranças e todos os parceiros envolvidos.</p>
+                    </div>
+
+                    <!-- Card 4 -->
+                    <div class="service-card group relative p-8 md:p-10 rounded-3xl bg-white/[0.03] backdrop-blur-xl border border-white/10 overflow-hidden transition-all duration-500 hover:scale-[1.03] hover:border-brand-pink/40 hover:bg-white/[0.05]">
+                        <div class="absolute top-0 right-0 w-48 h-48 bg-brand-pink/20 rounded-full blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                        <iconify-icon icon="solar:stopwatch-play-bold-duotone" class="text-5xl text-brand-pink mb-6 relative z-10 drop-shadow-lg group-hover:scale-110 transition-transform duration-500"></iconify-icon>
+                        <h3 class="text-2xl font-black text-white mb-4 relative z-10">Coordenação do Evento</h3>
+                        <p class="text-white/60 font-light leading-relaxed relative z-10">Acompanhamento integral no dia da festa para que a família aproveite cada momento.</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção 4: Galeria de Sonhos -->
+    <section id="galeria" class="relative w-full bg-[#F4F1EA] py-32 px-6 overflow-hidden z-20">
+        
+        <!-- Elementos Decorativos -->
+        <div class="absolute inset-0 pointer-events-none overflow-hidden parallax-gallery-bg">
+            <iconify-icon icon="solar:stars-line-duotone" class="absolute top-[5%] left-[5%] text-brand-pink/20 text-5xl" data-speed="0.5"></iconify-icon>
+            <iconify-icon icon="solar:moon-fog-line-duotone" class="absolute top-[20%] right-[10%] text-brand-blue/20 text-6xl" data-speed="0.2"></iconify-icon>
+            <iconify-icon icon="solar:cloud-sun-line-duotone" class="absolute bottom-[10%] left-[20%] text-brand-yellow/20 text-7xl" data-speed="0.8"></iconify-icon>
+        </div>
+
+        <div class="max-w-7xl mx-auto relative z-10">
+            <!-- Cabeçalho -->
+            <div class="text-center mb-20">
+                <span class="inline-block py-2 px-6 rounded-full bg-white border border-brand-pink/20 text-brand-pink text-xs font-bold tracking-widest uppercase mb-6 shadow-sm">
+                    ✨ Momentos que se tornam memórias
+                </span>
+                <h2 class="text-5xl md:text-6xl font-black text-brand-black tracking-tighter mb-6">
+                    Galeria de <span class="font-cursive text-brand-pink font-normal text-6xl md:text-7xl drop-shadow-sm">Sonhos</span>
+                </h2>
+                <p class="font-sans text-brand-black/70 text-lg max-w-2xl mx-auto leading-relaxed">
+                    Cada festa é única. Cada sorriso conta uma história.<br>
+                    Explore alguns dos universos mágicos que ajudamos a transformar em realidade.
+                </p>
+            </div>
+
+            <!-- Grid Masonry -->
+            <div class="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6 gallery-grid">
+                
+                <!-- Card 1 -->
+                <div class="gallery-item relative rounded-3xl overflow-hidden cursor-pointer group break-inside-avoid shadow-sm hover:shadow-2xl transition-shadow duration-500" data-speed="1.0" data-theme="✨ Reino dos Unicórnios" data-desc="Uma celebração repleta de fantasia, brilho e delicadeza. 120 convidados • 5 anos • Goiânia">
+                    <img src="./assets/fotos/sonhar.JPG" alt="Unicórnios" class="w-full object-cover aspect-[4/5] transform transition-transform duration-1000 group-hover:scale-[1.08] group-hover:brightness-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-black/90 via-brand-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-8 translate-y-4 group-hover:translate-y-0 gallery-overlay">
+                        <h3 class="text-white text-2xl font-black mb-2">✨ Reino dos Unicórnios</h3>
+                        <p class="text-white/80 text-sm font-medium">120 convidados • 5 anos • Goiânia</p>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="gallery-item relative rounded-3xl overflow-hidden cursor-pointer group break-inside-avoid shadow-sm hover:shadow-2xl transition-shadow duration-500" data-speed="1.1" data-theme="🚀 Missão Espacial" data-desc="Uma aventura intergaláctica cheia de descobertas criada para o Lucas.">
+                    <img src="./assets/fotos/planejar.JPG" alt="Espaço" class="w-full object-cover aspect-square transform transition-transform duration-1000 group-hover:scale-[1.08] group-hover:brightness-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-black/90 via-brand-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-8 translate-y-4 group-hover:translate-y-0 gallery-overlay">
+                        <h3 class="text-white text-2xl font-black mb-2">🚀 Missão Espacial</h3>
+                        <p class="text-white/80 text-sm font-medium">Uma aventura criada para o Lucas</p>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="gallery-item relative rounded-3xl overflow-hidden cursor-pointer group break-inside-avoid shadow-sm hover:shadow-2xl transition-shadow duration-500" data-speed="0.9" data-theme="👑 Princesas Encantadas" data-desc="Um universo encantado criado especialmente para celebrar a imaginação e os sonhos da aniversariante. Castelo Mágico • 8 anos.">
+                    <img src="./assets/fotos/orchestrar.JPG" alt="Princesas" class="w-full object-cover aspect-[3/4] transform transition-transform duration-1000 group-hover:scale-[1.08] group-hover:brightness-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-black/90 via-brand-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-8 translate-y-4 group-hover:translate-y-0 gallery-overlay">
+                        <h3 class="text-white text-2xl font-black mb-2">👑 Princesas Encantadas</h3>
+                        <p class="text-white/80 text-sm font-medium">Castelo Mágico • 8 anos</p>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="gallery-item relative rounded-3xl overflow-hidden cursor-pointer group break-inside-avoid shadow-sm hover:shadow-2xl transition-shadow duration-500" data-speed="1.2" data-theme="🦖 Mundo dos Dinossauros" data-desc="Uma imersão na pré-história com muita diversão. Parque Jurássico • 4 anos.">
+                    <img src="./assets/fotos/celebrar.JPG" alt="Dinossauros" class="w-full object-cover aspect-video transform transition-transform duration-1000 group-hover:scale-[1.08] group-hover:brightness-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-black/90 via-brand-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-8 translate-y-4 group-hover:translate-y-0 gallery-overlay">
+                        <h3 class="text-white text-2xl font-black mb-2">🦖 Mundo dos Dinossauros</h3>
+                        <p class="text-white/80 text-sm font-medium">Parque Jurássico • 4 anos</p>
+                    </div>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="gallery-item relative rounded-3xl overflow-hidden cursor-pointer group break-inside-avoid shadow-sm hover:shadow-2xl transition-shadow duration-500" data-speed="1.0" data-theme="🎪 Circo Mágico" data-desc="Alegria, cor e encanto debaixo da lona. O espetáculo do Rafael • 1 ano.">
+                    <img src="./assets/fotos/sonhar02.jpeg" alt="Circo" class="w-full object-cover aspect-[4/5] transform transition-transform duration-1000 group-hover:scale-[1.08] group-hover:brightness-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-black/90 via-brand-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-8 translate-y-4 group-hover:translate-y-0 gallery-overlay">
+                        <h3 class="text-white text-2xl font-black mb-2">🎪 Circo Mágico</h3>
+                        <p class="text-white/80 text-sm font-medium">O espetáculo do Rafael • 1 ano</p>
+                    </div>
+                </div>
+
+                <!-- Card 6 -->
+                <div class="gallery-item relative rounded-3xl overflow-hidden cursor-pointer group break-inside-avoid shadow-sm hover:shadow-2xl transition-shadow duration-500" data-speed="0.8" data-theme="🧜 Fundo do Mar" data-desc="Um lindo passeio pelo oceano cheio de amigos mágicos. Mergulho da Sereia • 6 anos.">
+                    <img src="./assets/fotos/planejar02.jpeg" alt="Fundo do Mar" class="w-full object-cover aspect-square transform transition-transform duration-1000 group-hover:scale-[1.08] group-hover:brightness-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-black/90 via-brand-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-8 translate-y-4 group-hover:translate-y-0 gallery-overlay">
+                        <h3 class="text-white text-2xl font-black mb-2">🧜 Fundo do Mar</h3>
+                        <p class="text-white/80 text-sm font-medium">Mergulho da Sereia • 6 anos</p>
+                    </div>
+                </div>
+
+                <!-- Card 7 -->
+                <div class="gallery-item relative rounded-3xl overflow-hidden cursor-pointer group break-inside-avoid shadow-sm hover:shadow-2xl transition-shadow duration-500" data-speed="1.1" data-theme="🐻 Bosque Encantado" data-desc="Música suave e bichinhos da floresta numa tarde inesquecível. Natureza Mágica • 2 anos.">
+                    <img src="./assets/fotos/orchestrar02.jpeg" alt="Bosque" class="w-full object-cover aspect-[3/4] transform transition-transform duration-1000 group-hover:scale-[1.08] group-hover:brightness-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-black/90 via-brand-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-8 translate-y-4 group-hover:translate-y-0 gallery-overlay">
+                        <h3 class="text-white text-2xl font-black mb-2">🐻 Bosque Encantado</h3>
+                        <p class="text-white/80 text-sm font-medium">Natureza Mágica • 2 anos</p>
+                    </div>
+                </div>
+
+                <!-- Card 8 -->
+                <div class="gallery-item relative rounded-3xl overflow-hidden cursor-pointer group break-inside-avoid shadow-sm hover:shadow-2xl transition-shadow duration-500" data-speed="0.9" data-theme="⚡ Super-Heróis" data-desc="Diversão, adrenalina e muita energia para todos os pequenos heróis. A liga do Theo • 5 anos.">
+                    <img src="./assets/fotos/sonhar.JPG" alt="Super Heróis" class="w-full object-cover aspect-video transform transition-transform duration-1000 group-hover:scale-[1.08] group-hover:brightness-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-black/90 via-brand-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-8 translate-y-4 group-hover:translate-y-0 gallery-overlay">
+                        <h3 class="text-white text-2xl font-black mb-2">⚡ Super-Heróis</h3>
+                        <p class="text-white/80 text-sm font-medium">A liga do Theo • 5 anos</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- GSAP FLIP Lightbox Container -->
+    <div id="lightbox" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 md:p-12 bg-brand-black/95 backdrop-blur-xl opacity-0">
+        <button id="lightbox-close" class="absolute top-8 right-8 text-white/50 hover:text-white transition-colors">
+            <iconify-icon icon="solar:close-circle-bold" class="text-5xl drop-shadow-md"></iconify-icon>
+        </button>
+        <div class="w-full max-w-6xl h-full flex flex-col md:flex-row gap-8 items-center justify-center">
+            <div id="lightbox-img-container" class="w-full md:w-2/3 h-[50vh] md:h-[80vh] relative rounded-3xl overflow-hidden shadow-2xl">
+                <!-- Imagem voa pra cá via FLIP -->
+            </div>
+            <div id="lightbox-info" class="w-full md:w-1/3 text-white flex flex-col justify-center opacity-0 translate-x-8">
+                <span class="text-brand-pink font-bold tracking-widest uppercase text-sm mb-4">Galeria de Sonhos</span>
+                <h3 id="lightbox-title" class="text-4xl md:text-5xl font-black mb-4 leading-tight text-white"></h3>
+                <p id="lightbox-desc" class="text-white/70 text-lg leading-relaxed mb-8 font-light"></p>
+                <button class="bg-white text-brand-black px-8 py-4 rounded-full font-bold shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:shadow-[0_0_30px_rgba(255,255,255,0.4)] hover:scale-105 transition-all duration-300 w-fit">
+                    Solicitar Festa Semelhante
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        @keyframes blurFadeInOut {
+            0% { opacity: 0; filter: blur(20px); transform: scale(0.95); }
+            5% { opacity: 1; filter: blur(0px); transform: scale(1); }
+            15% { opacity: 1; filter: blur(0px); transform: scale(1); }
+            20% { opacity: 0; filter: blur(20px); transform: scale(1.05); }
+            100% { opacity: 0; filter: blur(20px); transform: scale(1.05); }
+        }
+        .testimonial-slide {
+            animation: blurFadeInOut 30s infinite;
+            opacity: 0; /* Default hidden */
+        }
+        @keyframes gradient-x {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        .animate-gradient-x {
+            animation: gradient-x 4s ease infinite;
+        }
+    </style>
+
+    <!-- Seção 5: O que as famílias dizem -->
+    <section id="depoimentos" class="relative w-full bg-[#FEF5F6] py-32 overflow-hidden z-20 flex flex-col justify-center items-center">
+        <!-- Fundo sutil claro -->
+        <div class="absolute inset-0 pointer-events-none z-0">
+            <div class="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-brand-pink/20 blur-[120px] rounded-full"></div>
+            <div class="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-brand-yellow/30 blur-[120px] rounded-full"></div>
+            <div class="absolute top-[20%] left-[20%] text-brand-black/5 text-9xl font-cursive opacity-50 transform -rotate-12 select-none">Sonhos</div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-6 relative z-10 text-center mb-10 md:mb-20 scroll-reveal">
+            <span class="inline-block py-2 px-6 rounded-full bg-brand-black/5 border border-brand-pink/30 text-brand-pink text-xs font-bold tracking-widest uppercase mb-6 shadow-sm backdrop-blur-sm">
+                ❤️ Histórias Reais
+            </span>
+            <h2 class="text-5xl md:text-6xl font-black text-brand-black tracking-tighter mb-6">
+                Memórias que ficam para <span class="font-cursive text-brand-pink font-normal text-6xl md:text-7xl drop-shadow-sm">sempre</span>
+            </h2>
+            <p class="font-sans text-brand-black/70 text-lg max-w-2xl mx-auto leading-relaxed">
+                Cada festa carrega uma história única.<br>
+                Estas são algumas das experiências compartilhadas pelas famílias que confiaram em nosso trabalho.
+            </p>
+        </div>
+
+        <!-- Container do Slideshow em CSS Puro -->
+        <div class="relative w-full max-w-6xl mx-auto h-[400px] flex items-center justify-center z-10 px-4">
+            
+            <!-- Slide 1 -->
+            <div class="testimonial-slide absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none" style="animation-delay: 0s;">
+                <p class="text-3xl md:text-6xl font-sans tracking-tight font-bold leading-tight mb-8 drop-shadow-[0_2px_10px_rgba(0,0,0,0.1)]" style="color: #E87C93;">
+                    "Foi a primeira vez que conseguimos aproveitar toda a festa sem preocupação."
+                </p>
+                <p class="font-mono text-brand-black/60 text-sm md:text-xl uppercase tracking-widest">
+                    — Juliana, MÃE DE Laura
+                </p>
+            </div>
+            
+            <!-- Slide 2 -->
+            <div class="testimonial-slide absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none" style="animation-delay: 5s;">
+                <p class="text-3xl md:text-6xl font-sans tracking-tight font-bold leading-tight mb-8 drop-shadow-[0_2px_10px_rgba(0,0,0,0.1)]" style="color: #7DDBF4;">
+                    "Tudo ficou ainda mais bonito do que imaginávamos. Absolutamente Mágico!"
+                </p>
+                <p class="font-mono text-brand-black/60 text-sm md:text-xl uppercase tracking-widest">
+                    — Fernanda, MÃE DE Pedro
+                </p>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="testimonial-slide absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none" style="animation-delay: 10s;">
+                <p class="text-3xl md:text-6xl font-sans tracking-tight font-bold leading-tight mb-8 drop-shadow-[0_2px_10px_rgba(0,0,0,0.1)]" style="color: #F9E385;">
+                    "Organização impecável do início ao fim. Foi o dia perfeito."
+                </p>
+                <p class="font-mono text-brand-black/60 text-sm md:text-xl uppercase tracking-widest">
+                    — Camila, MÃE DE Miguel
+                </p>
+            </div>
+
+            <!-- Slide 4 -->
+            <div class="testimonial-slide absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none" style="animation-delay: 15s;">
+                <p class="text-3xl md:text-6xl font-sans tracking-tight font-bold leading-tight mb-8 drop-shadow-[0_2px_10px_rgba(0,0,0,0.1)]" style="color: #E87C93;">
+                    "Nossos convidados ficaram encantados com a riqueza de cada detalhe."
+                </p>
+                <p class="font-mono text-brand-black/60 text-sm md:text-xl uppercase tracking-widest">
+                    — Roberto, PAI DE Lucas
+                </p>
+            </div>
+
+            <!-- Slide 5 -->
+            <div class="testimonial-slide absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none" style="animation-delay: 20s;">
+                <p class="text-3xl md:text-6xl font-sans tracking-tight font-bold leading-tight mb-8 drop-shadow-[0_2px_10px_rgba(0,0,0,0.1)]" style="color: #7DDBF4;">
+                    "Vocês transformaram nosso sonho em realidade. Foi uma noite Inesquecível."
+                </p>
+                <p class="font-mono text-brand-black/60 text-sm md:text-xl uppercase tracking-widest">
+                    — Mariana, MÃE DE Sofia
+                </p>
+            </div>
+
+            <!-- Slide 6 -->
+            <div class="testimonial-slide absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none" style="animation-delay: 25s;">
+                <p class="text-3xl md:text-6xl font-sans tracking-tight font-bold leading-tight mb-8 drop-shadow-[0_2px_10px_rgba(0,0,0,0.1)]" style="color: #F9E385;">
+                    "O cuidado superou nossas expectativas de todas as formas possíveis."
+                </p>
+                <p class="font-mono text-brand-black/60 text-sm md:text-xl uppercase tracking-widest">
+                    — Beatriz, MÃE DE Alice
+                </p>
+            </div>
+            
+        </div>
+        </div>
+    </section>
+
+    <!-- Seção 6: Sobre a Lidiane -->
+    <section id="sobre" class="relative w-full bg-brand-black py-24 md:py-40 overflow-hidden z-20">
+        <!-- Background Orbs -->
+        <div class="absolute inset-0 pointer-events-none z-0">
+            <div class="absolute top-[-10%] right-[-5%] w-[40%] h-[40%] bg-brand-pink/15 blur-[150px] rounded-full"></div>
+            <div class="absolute bottom-[-10%] left-[-10%] w-[50%] h-[50%] bg-brand-blue/15 blur-[150px] rounded-full"></div>
+            <!-- Elemento tipográfico de fundo -->
+            <div class="absolute top-[30%] left-[-5%] text-white/5 text-9xl font-cursive opacity-30 transform -rotate-12 select-none pointer-events-none">Lidiane</div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <div class="flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
+                
+                <!-- Coluna de Texto (60%) -->
+                <div class="w-full lg:w-3/5 flex flex-col justify-center about-text-container order-2 lg:order-1">
+                    
+                    <span class="inline-block py-2 px-6 rounded-full bg-white/5 border border-brand-pink/20 text-brand-pink text-xs font-bold tracking-widest uppercase mb-8 shadow-sm backdrop-blur-sm w-max about-stagger">
+                        ✨ Quem Sou Eu
+                    </span>
+
+                    <h2 class="text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tighter mb-10 leading-[1.1] about-stagger">
+                        Criar memórias é o que me <span class="font-cursive text-brand-pink font-normal text-6xl md:text-7xl lg:text-8xl drop-shadow-lg">move.</span>
+                    </h2>
+
+                    <div class="space-y-6 text-white/80 font-sans text-lg md:text-xl font-light leading-relaxed max-w-2xl about-stagger">
+                        <p>Cada festa começa muito antes da decoração.</p>
+                        <p>Ela começa em um <strong class="text-white font-bold tracking-wide">sonho</strong>.</p>
+                        <p>Sou Lidiane e dedico meu trabalho a transformar sonhos em experiências que unem emoção, organização e encantamento.</p>
+                        <p>Acredito que os pais devem estar presentes nos momentos mais importantes da festa, enquanto eu cuido dos bastidores com atenção a cada detalhe.</p>
+                    </div>
+
+                    <!-- Bloco Festas Inclusivas -->
+                    <div class="mt-12 p-8 md:p-10 rounded-3xl bg-gradient-to-br from-white/10 to-white/5 border border-white/10 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] relative overflow-hidden group about-stagger">
+                        <!-- Decorativo Glowing -->
+                        <div class="absolute -top-10 -right-10 w-40 h-40 bg-brand-yellow/30 blur-[60px] rounded-full group-hover:scale-150 group-hover:bg-brand-pink/30 transition-all duration-700 ease-out"></div>
+                        
+                        <h4 class="text-brand-yellow text-xl md:text-2xl font-bold tracking-wide flex items-center gap-4 mb-4 relative z-10">
+                            <iconify-icon icon="solar:star-fall-bold-duotone" width="32" height="32" class="text-brand-yellow drop-shadow-md"></iconify-icon>
+                            Festas Inclusivas
+                        </h4>
+                        <p class="text-white/70 font-sans text-base md:text-lg leading-relaxed relative z-10">
+                            Planejamento acolhedor para crianças com necessidades especiais, respeitando sensibilidades, rotinas e particularidades para que cada família viva esse momento com conforto, segurança e alegria. Porque toda criança merece viver o seu dia de forma única.
+                        </p>
+                    </div>
+
+
+
+                </div>
+
+                <!-- Coluna da Foto (40%) -->
+                <div class="w-full lg:w-2/5 flex justify-center lg:justify-end relative about-photo-container order-1 lg:order-2 perspective-[1200px]">
+                    <!-- Elementos decorativos animados pelo mouse -->
+                    <div class="absolute -top-10 -left-10 w-40 h-40 bg-brand-pink/20 rounded-full blur-[50px] photo-decor pointer-events-none"></div>
+                    <div class="absolute -bottom-10 -right-10 w-48 h-48 bg-brand-blue/20 rounded-full blur-[60px] photo-decor pointer-events-none"></div>
+                    
+                    <!-- Frame da Foto -->
+                    <div class="relative w-full max-w-[450px] aspect-[4/5] rounded-[2rem] overflow-hidden shadow-[0_40px_80px_rgba(0,0,0,0.6)] border border-white/10 transform lg:rotate-2 hover:rotate-0 transition-all duration-700 ease-out about-photo-wrapper will-change-transform bg-brand-black/50">
+                        <img src="./assets/fotos/sobre.JPG" alt="Lidiane Assessora de Eventos Infantis" class="w-full h-full object-cover about-photo scale-110 origin-center filter contrast-[1.05] brightness-95">
+                        
+                        <!-- Glow overlay interno -->
+                        <div class="absolute inset-0 bg-gradient-to-t from-brand-black via-transparent to-transparent opacity-80 pointer-events-none"></div>
+                        <div class="absolute inset-0 bg-gradient-to-tr from-brand-pink/20 to-transparent opacity-40 mix-blend-overlay pointer-events-none"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção 7: CTA Final -->
+    <section id="cta" class="relative w-full bg-[#FEF5F6] min-h-[90vh] md:min-h-screen flex flex-col justify-center items-center overflow-hidden z-20">
+        
+        <!-- Camada 1: Background Glow e Esfera Luminosa (Parallax) -->
+        <div class="absolute inset-0 pointer-events-none z-0 flex items-center justify-center cta-layer-1">
+            <div class="absolute w-[90vw] h-[90vw] md:w-[60vw] md:h-[60vw] max-w-[900px] max-h-[900px] bg-gradient-to-tr from-brand-pink/60 via-brand-yellow/50 to-brand-blue/60 rounded-full blur-[120px] md:blur-[180px] opacity-0 cta-sphere"></div>
+            <!-- Glow difuso extra vindo de baixo -->
+            <div class="absolute bottom-0 left-0 w-full h-[50%] bg-gradient-to-t from-white to-transparent pointer-events-none"></div>
+        </div>
+
+        <!-- Camada de Sparkling Mágico -->
+        <div class="absolute inset-0 pointer-events-none z-[5] overflow-hidden">
+            <iconify-icon icon="solar:stars-minimalistic-bold" class="absolute top-[10%] left-[15%] text-brand-pink/40 text-xl animate-sparkle" style="animation-delay: 0s;"></iconify-icon>
+            <iconify-icon icon="solar:stars-minimalistic-bold" class="absolute top-[25%] left-[30%] text-brand-yellow/50 text-xs animate-sparkle" style="animation-delay: 0.5s;"></iconify-icon>
+            <iconify-icon icon="solar:stars-minimalistic-bold" class="absolute top-[40%] left-[10%] text-brand-blue/40 text-2xl animate-sparkle" style="animation-delay: 1.2s;"></iconify-icon>
+            <iconify-icon icon="solar:stars-minimalistic-bold" class="absolute top-[60%] left-[20%] text-brand-pink/30 text-sm animate-sparkle" style="animation-delay: 0.8s;"></iconify-icon>
+            <iconify-icon icon="solar:stars-minimalistic-bold" class="absolute top-[80%] left-[5%] text-brand-yellow/60 text-lg animate-sparkle" style="animation-delay: 1.5s;"></iconify-icon>
+            
+            <iconify-icon icon="solar:stars-minimalistic-bold" class="absolute top-[15%] right-[15%] text-brand-blue/50 text-2xl animate-sparkle" style="animation-delay: 0.2s;"></iconify-icon>
+            <iconify-icon icon="solar:stars-minimalistic-bold" class="absolute top-[35%] right-[30%] text-brand-pink/60 text-sm animate-sparkle" style="animation-delay: 0.9s;"></iconify-icon>
+            <iconify-icon icon="solar:stars-minimalistic-bold" class="absolute top-[50%] right-[10%] text-brand-yellow/40 text-xl animate-sparkle" style="animation-delay: 1.3s;"></iconify-icon>
+            <iconify-icon icon="solar:stars-minimalistic-bold" class="absolute top-[75%] right-[25%] text-brand-blue/30 text-xs animate-sparkle" style="animation-delay: 0.6s;"></iconify-icon>
+            <iconify-icon icon="solar:stars-minimalistic-bold" class="absolute top-[85%] right-[10%] text-brand-pink/50 text-lg animate-sparkle" style="animation-delay: 1.8s;"></iconify-icon>
+
+            <iconify-icon icon="solar:stars-minimalistic-bold" class="absolute top-[5%] left-[50%] text-brand-yellow/50 text-sm animate-sparkle" style="animation-delay: 1.1s;"></iconify-icon>
+            <iconify-icon icon="solar:stars-minimalistic-bold" class="absolute top-[90%] left-[40%] text-brand-pink/40 text-xl animate-sparkle" style="animation-delay: 0.4s;"></iconify-icon>
+            <iconify-icon icon="solar:stars-minimalistic-bold" class="absolute top-[60%] left-[80%] text-brand-blue/40 text-lg animate-sparkle" style="animation-delay: 1.4s;"></iconify-icon>
+        </div>
+
+        <!-- Camada 3: Elementos Decorativos Sutis (Partículas antigas removidas) -->
+        <div class="absolute inset-0 pointer-events-none z-10 cta-layer-3">
+        </div>
+
+        <!-- Camada 2: Conteúdo Principal -->
+        <div class="max-w-5xl mx-auto px-6 relative z-20 text-center flex flex-col items-center cta-layer-2 py-20">
+            
+            <h2 class="text-4xl md:text-6xl lg:text-7xl font-black text-brand-black tracking-tighter mb-8 leading-[1.1] cta-text">
+                Vamos planejar uma festa <br class="hidden md:block">
+                <span class="font-cursive text-transparent bg-clip-text bg-gradient-to-r from-brand-pink via-brand-yellow to-brand-blue bg-[length:200%_auto] animate-gradient-x font-normal text-6xl md:text-8xl lg:text-9xl drop-shadow-[0_0_20px_rgba(232,124,147,0.2)] relative inline-block mt-2 md:mt-4">
+                    inesquecível?
+                    <!-- Brilho extra invisível sob a palavra para pulsar -->
+                    <div class="absolute -inset-8 bg-brand-pink/20 blur-[50px] rounded-full -z-10 opacity-0 cta-word-glow"></div>
+                </span>
+            </h2>
+
+            <p class="font-sans text-brand-black/70 text-lg md:text-2xl font-light leading-relaxed max-w-3xl mb-16 cta-text">
+                Conte sua ideia e receba uma proposta personalizada para transformar esse momento em uma celebração única, cheia de significado e memórias felizes.
+            </p>
+
+            <!-- Botão Principal com Efeito Magnético -->
+            <div class="cta-button-wrapper relative p-6">
+                <!-- Anel de Glow que segue o mouse e pulsa -->
+                <div class="absolute inset-4 bg-brand-pink rounded-full blur-[25px] opacity-0 transition-opacity duration-500 cta-button-glow pointer-events-none z-0"></div>
+                
+                <a href="https://wa.me/556781365123" target="_blank" class="cta-btn relative inline-flex items-center justify-center gap-3 px-10 md:px-14 py-5 md:py-6 rounded-full bg-brand-black text-white font-bold text-lg md:text-xl tracking-wide transition-transform duration-300 shadow-[0_15px_30px_rgba(0,0,0,0.2)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.4)] overflow-hidden group border border-brand-black/20 z-10">
+                    <span class="relative z-10 flex items-center gap-3 drop-shadow-sm">
+                        Quero Planejar Minha Festa
+                    </span>
+                    <!-- Hover Effect interno metálico/colorido -->
+                    <div class="absolute inset-0 bg-gradient-to-r from-brand-pink/80 via-brand-yellow/80 to-brand-blue/80 translate-y-[100%] group-hover:translate-y-0 transition-transform duration-500 ease-out z-0"></div>
+                </a>
+            </div>
+
+            <p class="font-mono text-brand-black/40 text-[10px] md:text-sm tracking-[0.2em] uppercase mt-12 cta-text flex items-center justify-center gap-2">
+                Cada grande festa começa com uma simples conversa.
+            </p>
+
+        </div>
+    </section>
+
+    <!-- Footer Premium -->
+    <footer id="footer" class="relative w-full bg-brand-black pt-20 pb-10 overflow-hidden z-20">
+        
+        <!-- Fundo Decorativo -->
+        <div class="absolute inset-0 pointer-events-none z-0">
+            <div class="absolute bottom-[-20%] left-[-10%] w-[40%] h-[40%] bg-brand-pink/10 blur-[120px] rounded-full"></div>
+            <div class="absolute top-[-10%] right-[-5%] w-[30%] h-[30%] bg-brand-blue/5 blur-[100px] rounded-full"></div>
+            <!-- Divisor no topo do footer (Fade Edge) -->
+            <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-6 relative z-10 flex flex-col">
+            
+            <!-- Grid Principal -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8 mb-16">
+                
+                <!-- Coluna 1: Marca e Tagline (Ocupa 5 colunas no desktop) -->
+                <div class="col-span-1 md:col-span-5 flex flex-col justify-center items-center md:items-start text-center md:text-left">
+                    <a href="#hero-container" class="inline-block group mb-4">
+                        <h2 class="font-cursive text-6xl text-white group-hover:text-brand-pink transition-colors duration-500 drop-shadow-sm">Lidiane</h2>
+                    </a>
+                    <p class="font-sans text-white/50 text-sm md:text-base font-light leading-relaxed max-w-sm">
+                        Transformando sonhos infantis em experiências imersivas, mágicas e inesquecíveis. Porque cada celebração é uma obra de arte única.
+                    </p>
+                </div>
+
+                <!-- Coluna 2: Navegação Rápida (Ocupa 3 colunas no desktop) -->
+                <div class="col-span-1 md:col-span-3 flex flex-col items-center md:items-start">
+                    <h4 class="font-sans text-white text-sm font-bold tracking-widest uppercase mb-6 opacity-90">Navegação</h4>
+                    <ul class="flex flex-col gap-4 items-center md:items-start text-white/60 text-sm font-light">
+                        <li><a href="#hero-container" class="hover:text-brand-pink transition-colors duration-300">Início</a></li>
+                        <li><a href="#processo" class="hover:text-brand-pink transition-colors duration-300">Nosso Processo</a></li>
+                        <li><a href="#galeria" class="hover:text-brand-pink transition-colors duration-300">Experiências</a></li>
+                        <li><a href="#depoimentos" class="hover:text-brand-pink transition-colors duration-300">Depoimentos</a></li>
+                        <li><a href="#sobre" class="hover:text-brand-pink transition-colors duration-300">Quem Sou Eu</a></li>
+                    </ul>
+                </div>
+
+                <!-- Coluna 3: Contato & Redes (Ocupa 4 colunas no desktop) -->
+                <div class="col-span-1 md:col-span-4 flex flex-col items-center md:items-start">
+                    <h4 class="font-sans text-white text-sm font-bold tracking-widest uppercase mb-6 opacity-90">Conecte-se</h4>
+                    
+                    <div class="flex flex-col gap-4 text-white/60 text-sm font-light items-center md:items-start w-full">
+                        <a href="https://wa.me/556781365123" target="_blank" class="flex items-center gap-4 hover:text-white transition-colors duration-300 group">
+                            <div class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-brand-pink/20 group-hover:border-brand-pink/50 transition-all duration-300">
+                                <iconify-icon icon="ic:baseline-whatsapp" class="text-xl group-hover:text-brand-pink transition-colors"></iconify-icon>
+                            </div>
+                            <span class="font-mono text-xs tracking-wider">+55 67 8136-5123</span>
+                        </a>
+                        
+                        <a href="https://www.instagram.com/lidianeassessoria/" target="_blank" class="flex items-center gap-4 hover:text-white transition-colors duration-300 group">
+                            <div class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-brand-pink/20 group-hover:border-brand-pink/50 transition-all duration-300">
+                                <iconify-icon icon="mdi:instagram" class="text-xl group-hover:text-brand-pink transition-colors"></iconify-icon>
+                            </div>
+                            <span>@lidianeassessoria</span>
+                        </a>
+                        
+                        <a href="mailto:contato@lidianeassessoria.com.br" class="flex items-center gap-4 hover:text-white transition-colors duration-300 group">
+                            <div class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-brand-pink/20 group-hover:border-brand-pink/50 transition-all duration-300">
+                                <iconify-icon icon="ic:outline-email" class="text-xl group-hover:text-brand-pink transition-colors"></iconify-icon>
+                            </div>
+                            <span>contato@lidianeassessoria.com.br</span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Divisor -->
+            <div class="w-full h-[1px] bg-white/10 mb-8"></div>
+
+            <!-- Base do Footer (Copyright) -->
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
+                <p class="font-mono text-[10px] md:text-xs text-white/30 tracking-widest uppercase">
+                    &copy; 2026 Lidiane Assessoria. Todos os direitos reservados.
+                </p>
+                <p class="font-mono text-[10px] md:text-xs text-white/30 tracking-widest uppercase flex items-center gap-2">
+                    Feito com <iconify-icon icon="solar:heart-bold" class="text-brand-pink/60"></iconify-icon> no Brasil
+                </p>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- Inicialização de Lógica e Motion Design -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            gsap.registerPlugin(ScrollTrigger, Flip);
+
+            // 1. Lenis Smooth Scrolling (Crucial para o efeito Apple do vídeo)
+            const lenis = new Lenis({
+                duration: 1.5,
+                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                direction: 'vertical',
+                gestureDirection: 'vertical',
+                smooth: true,
+                smoothTouch: false, // Deixa nativo no mobile para melhor performance
+            });
+
+            function raf(time) {
+                lenis.raf(time);
+                requestAnimationFrame(raf);
+            }
+            requestAnimationFrame(raf);
+            lenis.on('scroll', ScrollTrigger.update);
+            gsap.ticker.add((time) => { lenis.raf(time * 1000); });
+            gsap.ticker.lagSmoothing(0, 0);
+
+            // 2. Animação de Entrada
+            const splitText = new SplitType('.split-text', { types: 'words' });
+            const splitAccent = new SplitType('.split-accent', { types: 'words' });
+            
+            // Video Element setup
+            const heroVideo = document.getElementById('hero-video');
+            
+            // Prevenir dupla inicialização do GSAP se os eventos dispararem duas vezes
+            let heroGSAPInitialized = false;
+
+            // Garantir que o video.duration esteja disponível antes de criar a timeline
+            heroVideo.addEventListener('loadedmetadata', initHeroGSAP);
+            if (heroVideo.readyState >= 1) {
+                initHeroGSAP();
+            }
+
+            function initHeroGSAP() {
+                if (heroGSAPInitialized) return;
+                heroGSAPInitialized = true;
+
+                // A master timeline que vai durar por toda a seção do hero
+                const masterTl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: "#hero-container",
+                        start: "top top",
+                        end: "+=300%", // Cria 300vh de distância de scroll controlada
+                        scrub: 1.5,
+                        pin: ".hero-pin" // Pin manual na div interna
+                    }
+                });
+
+                // --- GLOW (0% a 100%) ---
+                masterTl.to('.hero-glow', {
+                    opacity: 0.8,
+                    duration: 0.35, // Fase 1
+                    ease: "power2.inOut"
+                }, 0)
+                .to('.hero-glow', {
+                    opacity: 0.8,
+                    duration: 0.3, // Fase 2
+                }, 0.35)
+                .to('.hero-glow', {
+                    opacity: 0,
+                    duration: 0.35, // Fase 3
+                    ease: "power2.inOut"
+                }, 0.65);
+
+                // --- FASE 1: ENTRADA DOS TEXTOS (0% a 35%) ---
+                masterTl.fromTo('.hero-text-wrapper', {
+                    opacity: 0,
+                    filter: "blur(30px)",
+                    scale: 0.85,
+                    y: 100,
+                    rotationX: -10
+                }, {
+                    opacity: 1,
+                    filter: "blur(0px)",
+                    scale: 1,
+                    y: 0,
+                    rotationX: 0,
+                    duration: 0.35,
+                    ease: "power2.out"
+                }, 0);
+                
+                // Words stagger anim (com fallback de array vazio caso o DOM não crie as words)
+                const wordsArray = [...(splitText.words || []), ...(splitAccent.words || [])];
+                if(wordsArray.length > 0) {
+                    masterTl.fromTo(wordsArray, {
+                        opacity: 0,
+                        filter: "blur(20px)",
+                        y: 100
+                    }, {
+                        opacity: 1,
+                        filter: "blur(0px)",
+                        y: 0,
+                        duration: 0.25,
+                        stagger: 0.05,
+                        ease: "power3.out"
+                    }, 0);
+                }
+
+                // --- PARALLAX CONTÍNUO EM MÚLTIPLAS CAMADAS (0% a 100%) ---
+                // Camada 1: Vídeo (Lento - 0.8x)
+                masterTl.to('.layer-video', {
+                    y: "15%",
+                    scale: 1.05,
+                    duration: 1,
+                    ease: "none"
+                }, 0);
+                
+                // Camada 2: Gradientes (Médio - 1.2x)
+                masterTl.to('.layer-gradients', {
+                    y: "30%",
+                    duration: 1,
+                    ease: "none"
+                }, 0);
+                
+                // Camada 3: Conteúdo (Rápido - 1.5x)
+                masterTl.to('.layer-content', {
+                    y: "-25%",
+                    duration: 1,
+                    ease: "none"
+                }, 0);
+
+                // --- FASE 2: MANUTENÇÃO / LEITURA (35% a 65%) ---
+                masterTl.to('.hero-text-wrapper', {
+                    scale: 1.02, // Sutil aumento
+                    duration: 0.3,
+                    ease: "none"
+                }, 0.35);
+
+                // --- FASE 3: SAÍDA DOS TEXTOS (65% a 100%) ---
+                masterTl.to('.hero-text-wrapper', {
+                    opacity: 0,
+                    filter: "blur(40px)",
+                    scale: 1.15,
+                    rotationX: 10, // Leve efeito 3D ao afastar
+                    duration: 0.35,
+                    ease: "power2.in"
+                }, 0.65);
+
+                if(wordsArray.length > 0) {
+                    masterTl.to(wordsArray, {
+                        opacity: 0,
+                        filter: "blur(20px)",
+                        y: -100,
+                        duration: 0.25,
+                        stagger: 0.02,
+                        ease: "power3.in"
+                    }, 0.65);
+                }
+            }
+
+            // 5. Animação Stagger da Seção Processo (Aparecer ao rolar)
+            gsap.from('.process-step', {
+                scrollTrigger: {
+                    trigger: '#processo',
+                    start: 'top 80%',
+                },
+                y: 50,
+                opacity: 0,
+                duration: 1,
+                stagger: 0.2,
+                ease: 'power3.out'
+            });
+
+            // 6. Animação Seção 3 (Serviços)
+            // Fade-up com Blur dos Cards
+            gsap.from('.service-card', {
+                scrollTrigger: {
+                    trigger: '#servicos',
+                    start: 'top 70%',
+                },
+                y: 60,
+                opacity: 0,
+                filter: "blur(20px)",
+                duration: 1,
+                stagger: 0.15,
+                ease: 'power3.out'
+            });
+
+            // Parallax das partículas decorativas (Serviços e Galeria)
+            gsap.utils.toArray('.particle, .parallax-gallery-bg iconify-icon').forEach(particle => {
+                const speed = parseFloat(particle.getAttribute('data-speed')) || 0.5;
+                gsap.to(particle, {
+                    yPercent: -100 * speed,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: particle.closest('section'),
+                        start: "top bottom",
+                        end: "bottom top",
+                        scrub: true
+                    }
+                });
+            });
+
+            // 7. Galeria de Sonhos (Entrada e Parallax)
+            gsap.from('.gallery-item', {
+                scrollTrigger: {
+                    trigger: '#galeria',
+                    start: 'top 80%',
+                },
+                y: 100,
+                opacity: 0,
+                filter: "blur(10px)",
+                duration: 1.2,
+                stagger: 0.1,
+                ease: 'power3.out'
+            });
+
+            // Parallax discreto na rolagem da galeria
+            gsap.utils.toArray('.gallery-item').forEach(item => {
+                const speed = parseFloat(item.getAttribute('data-speed'));
+                gsap.to(item, {
+                    yPercent: -15 * speed, // Move suavemente o card em relação ao scroll
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: "#galeria",
+                        start: "top bottom",
+                        end: "bottom top",
+                        scrub: true
+                    }
+                });
+            });
+
+            // Tilt suave com mouse
+            document.querySelectorAll('.gallery-item').forEach(item => {
+                item.addEventListener('mousemove', (e) => {
+                    const rect = item.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const xPercent = x / rect.width - 0.5;
+                    const yPercent = y / rect.height - 0.5;
+                    
+                    gsap.to(item.querySelector('img'), {
+                        rotationY: xPercent * 5,
+                        rotationX: -yPercent * 5,
+                        duration: 0.5,
+                        ease: "power2.out"
+                    });
+                });
+                item.addEventListener('mouseleave', () => {
+                    gsap.to(item.querySelector('img'), {
+                        rotationY: 0,
+                        rotationX: 0,
+                        duration: 0.5,
+                        ease: "power2.out"
+                    });
+                });
+            });
+
+            // 8. GSAP FLIP Lightbox
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImgContainer = document.getElementById('lightbox-img-container');
+            const lightboxTitle = document.getElementById('lightbox-title');
+            const lightboxDesc = document.getElementById('lightbox-desc');
+            const lightboxClose = document.getElementById('lightbox-close');
+            const lightboxInfo = document.getElementById('lightbox-info');
+            let activeImage = null;
+            let activePlaceholder = null;
+
+            document.querySelectorAll('.gallery-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    if (activeImage) return; // Previne cliques múltiplos
+                    
+                    const img = item.querySelector('img');
+                    activeImage = img;
+                    activePlaceholder = item;
+                    
+                    // Preenche infos
+                    lightboxTitle.textContent = item.getAttribute('data-theme');
+                    lightboxDesc.textContent = item.getAttribute('data-desc');
+
+                    // Mostra Lightbox Background
+                    lightbox.classList.remove('hidden');
+                    lightbox.classList.add('flex');
+                    gsap.to(lightbox, { opacity: 1, duration: 0.4 });
+
+                    // Pega estado inicial (na galeria)
+                    const state = Flip.getState(img);
+
+                    // Move a imagem fisicamente no DOM para o Lightbox
+                    lightboxImgContainer.appendChild(img);
+                    
+                    // Altera as classes para preencher o lightbox perfeitamente
+                    img.className = "w-full h-full object-cover rounded-3xl";
+
+                    // FLIP! Animação cinematográfica
+                    Flip.from(state, {
+                        duration: 0.8,
+                        ease: "power3.inOut",
+                        absolute: true, // Crucial para não quebrar o layout original durante o voo
+                        onComplete: () => {
+                            // Anima entrada do texto lateral
+                            gsap.to(lightboxInfo, { opacity: 1, x: 0, duration: 0.5, ease: "power2.out" });
+                        }
+                    });
+                });
+            });
+
+            // Lógica de fechamento
+            lightboxClose.addEventListener('click', closeLightbox);
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) closeLightbox();
+            });
+
+            function closeLightbox() {
+                if (!activeImage) return;
+
+                // Esconde info text primeiro
+                gsap.to(lightboxInfo, { opacity: 0, x: 32, duration: 0.3 });
+
+                // Pega estado gigante no lightbox
+                const state = Flip.getState(activeImage);
+
+                // Devolve a imagem pro container original na galeria
+                activePlaceholder.insertBefore(activeImage, activePlaceholder.firstChild);
+                
+                // Restaura classes do hover/grid original
+                activeImage.className = "w-full object-cover aspect-auto transform transition-transform duration-1000 group-hover:scale-[1.08] group-hover:brightness-110";
+                // Usa altura 100% para se adaptar à proporção que o CSS Masonry exige do card
+                activeImage.style.height = "100%";
+                
+                // FLIP de volta
+                Flip.from(state, {
+                    duration: 0.8,
+                    ease: "power3.inOut",
+                    absolute: true,
+                    onComplete: () => {
+                        activeImage.style.height = ""; // Limpa inline
+                        gsap.to(lightbox, { opacity: 0, duration: 0.3, onComplete: () => {
+                            lightbox.classList.add('hidden');
+                            lightbox.classList.remove('flex');
+                            activeImage = null;
+                            activePlaceholder = null;
+                        }});
+                    }
+                });
+            }
+
+            // 9. Seção 5 de Depoimentos está usando animação nativa em CSS (blurFadeInOut).
+
+            // Scroll Reveal do título da seção de depoimentos
+            gsap.from('.scroll-reveal', {
+                scrollTrigger: {
+                    trigger: '#depoimentos',
+                    start: 'top 80%'
+                },
+                y: 60,
+                opacity: 0,
+                duration: 1.2,
+                ease: 'power3.out'
+            });
+
+            // 11. GSAP CTA Final (Seção 7)
+            try {
+                // Timeline Principal do CTA
+                const ctaTl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: '#cta',
+                        start: "top 60%", 
+                    }
+                });
+
+                // Esfera Luminosa crescendo e ascendendo
+                ctaTl.to('.cta-sphere', {
+                    opacity: 1,
+                    scale: 1.2,
+                    duration: 3,
+                    ease: "power2.out"
+                })
+                // Textos Reveal
+                .fromTo('.cta-text', 
+                    { opacity: 0, y: 50, filter: "blur(15px)" },
+                    { opacity: 1, y: 0, filter: "blur(0px)", duration: 1.5, stagger: 0.2, ease: "power3.out" },
+                    "-=2.5"
+                )
+                // Pulsação contínua na palavra "inesquecível"
+                .to('.cta-word-glow', {
+                    opacity: 1,
+                    scale: 1.1,
+                    duration: 2,
+                    ease: "power1.inOut",
+                    yoyo: true,
+                    repeat: -1
+                }, "-=1")
+                // Botão "Boing" Reveal
+                .fromTo('.cta-button-wrapper', 
+                    { scale: 0.8, opacity: 0 },
+                    { scale: 1, opacity: 1, duration: 1.2, ease: "elastic.out(1, 0.4)" },
+                    "-=1.5"
+                );
+
+                // 3 Camadas de Parallax Contínuo para profundidade
+                gsap.to('.cta-layer-1', {
+                    yPercent: 30,
+                    ease: "none",
+                    scrollTrigger: { trigger: '#cta', start: "top bottom", end: "bottom top", scrub: true }
+                });
+                gsap.to('.cta-layer-2', {
+                    yPercent: -15, // Texto sobe um pouco mais rápido
+                    ease: "none",
+                    scrollTrigger: { trigger: '#cta', start: "top bottom", end: "bottom top", scrub: true }
+                });
+                gsap.to('.cta-layer-3', {
+                    yPercent: -40, // Partículas sobem bem mais rápido (mais próximas à câmera)
+                    ease: "none",
+                    scrollTrigger: { trigger: '#cta', start: "top bottom", end: "bottom top", scrub: true }
+                });
+
+                // Animações Constantes Flutuantes (Partículas e Estrelas)
+                gsap.to('.cta-star', {
+                    y: "random(-20, 20)",
+                    x: "random(-10, 10)",
+                    rotation: "random(-15, 15)",
+                    opacity: "random(0.4, 1)",
+                    duration: "random(2, 4)",
+                    ease: "sine.inOut",
+                    yoyo: true,
+                    repeat: -1,
+                    stagger: { each: 0.5, from: "random" }
+                });
+                gsap.to('.cta-particle', {
+                    y: "-=40",
+                    opacity: 0,
+                    scale: "random(0.5, 1.5)",
+                    duration: "random(2, 5)",
+                    ease: "power1.in",
+                    repeat: -1,
+                    stagger: { each: 0.3, random: true }
+                });
+
+                // Magnetic Button Effect
+                const btnWrapper = document.querySelector('.cta-button-wrapper');
+                const btn = document.querySelector('.cta-btn');
+                const btnGlow = document.querySelector('.cta-button-glow');
+                
+                if(btnWrapper && btn && window.innerWidth > 768) { // Apenas Desktop/Tablet p/ Magnetic
+                    btnWrapper.addEventListener('mousemove', (e) => {
+                        const rect = btnWrapper.getBoundingClientRect();
+                        const x = e.clientX - rect.left - rect.width / 2;
+                        const y = e.clientY - rect.top - rect.height / 2;
+                        
+                        // Move o botão um pouco na direção do mouse
+                        gsap.to(btn, { x: x * 0.4, y: y * 0.4, duration: 0.3, ease: "power2.out" });
+                        // Move o Glow intensamente embaixo do botão
+                        gsap.to(btnGlow, { opacity: 1, x: x * 0.6, y: y * 0.6, scale: 1.1, duration: 0.3 });
+                    });
+                    
+                    btnWrapper.addEventListener('mouseleave', () => {
+                        // Solta o ímã
+                        gsap.to(btn, { x: 0, y: 0, duration: 0.8, ease: "elastic.out(1, 0.3)" });
+                        gsap.to(btnGlow, { opacity: 0, x: 0, y: 0, scale: 1, duration: 0.5 });
+                    });
+                }
+
+            } catch (err) {
+                console.error("Erro na animação do CTA Final: ", err);
+            }
+
+        });
+    </script>
+
+</body>
+</html>

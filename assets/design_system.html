@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lidiane Design System</title>
+  <!-- Font loading – using Google Fonts as fallback, weights based on the provided typography image -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <!-- Core stylesheet – BEM naming, CSS variables for palette -->
+  <link href="assets/css/design-system.css" rel="stylesheet" />
+</head>
+<body class="ds">
+  <!-- Hero – first fold, animated background and floating elements -->
+  <section class="ds__hero ds__hero--primary">
+    <div class="ds__hero-bg ds__hero-bg--animation">
+      <!-- Background image can be swapped with any asset image; using placeholder from existing templates -->
+      <img src="assets/a416208c7c093579_home12.jpg" alt="Background" class="ds__hero-bg__img" />
+    </div>
+    <div class="ds__container ds__hero-content">
+      <h1 class="ds__hero-title ds__hero-title--gradient">Design System Lidiane</h1>
+      <p class="ds__hero-subtitle">Um sistema BEM completo, com tipografia transparente, cores premium e animações de origem.</p>
+      <a href="#components" class="ds__button ds__button--primary ds__hero-cta">
+        <span>Explorar Componentes</span>
+        <i class="fa fa-arrow-right" aria-hidden="true"></i>
+      </a>
+    </div>
+    <!-- floating glow effect -->
+    <div class="ds__hero-glow"></div>
+  </section>
+
+  <!-- Typography Section -->
+  <section id="typography" class="ds__section ds__section--typography">
+    <div class="ds__container">
+      <h2 class="ds__section-title">Tipografia</h2>
+      <div class="ds__typography">
+        <div class="ds__typography__example ds__typography__example--primary">
+          <p class="ds__font-primary">AaBbCcDdEe FfGgHhIiJj KkLlMmNnOo PpQqRrSsTt UuVvWwXxYyZz 0123456789</p>
+          <p class="ds__font-secondary">Inter – Regular 400 – 1.6rem – 0.02em</p>
+        </div>
+        <div class="ds__typography__example ds__typography__example--secondary">
+          <p class="ds__font-secondary">AaBbCcDdEe FfGgHhIiJj KkLlMmNnOo PpQqRrSsTt UuVvWwXxYyZz 0123456789</p>
+          <p class="ds__font-secondary">Roboto – Medium 500 – 1.4rem – 0.01em</p>
+        </div>
+        <div class="ds__typography__example ds__typography__example--code">
+          <pre class="ds__font-mono"><code>/* Código de exemplo */
+body {font-family: 'Roboto', sans-serif;}</code></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Color Palette Section -->
+  <section id="colors" class="ds__section ds__section--colors">
+    <div class="ds__container">
+      <h2 class="ds__section-title">Paleta de Cores</h2>
+      <div class="ds__colors">
+        <div class="ds__color ds__color--primary" style="--ds-color:#0D47A1;">
+          <span class="ds__color-label">Primary</span>
+          <code>#0D47A1</code>
+        </div>
+        <div class="ds__color ds__color--secondary" style="--ds-color:#FF6F61;">
+          <span class="ds__color-label">Secondary</span>
+          <code>#FF6F61</code>
+        </div>
+        <div class="ds__color ds__color--accent" style="--ds-color:#FFC107;">
+          <span class="ds__color-label">Accent</span>
+          <code>#FFC107</code>
+        </div>
+        <div class="ds__color ds__color--neutral" style="--ds-color:#F5F5F5;">
+          <span class="ds__color-label">Neutral</span>
+          <code>#F5F5F5</code>
+        </div>
+        <div class="ds__color ds__color--feedback-success" style="--ds-color:#4CAF50;">
+          <span class="ds__color-label">Success</span>
+          <code>#4CAF50</code>
+        </div>
+        <div class="ds__color ds__color--feedback-error" style="--ds-color:#F44336;">
+          <span class="ds__color-label">Error</span>
+          <code>#F44336</code>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Components Section -->
+  <section id="components" class="ds__section ds__section--components">
+    <div class="ds__container">
+      <h2 class="ds__section-title">Componentes UI</h2>
+      <div class="ds__component-grid">
+        <!-- Button Component -->
+        <div class="ds__component ds__component--button">
+          <h3 class="ds__component-title">Botões</h3>
+          <button class="ds__button ds__button--primary ds__animate--fade-in">Primário</button>
+          <button class="ds__button ds__button--secondary ds__animate--fade-in">Secundário</button>
+          <button class="ds__button ds__button--outline ds__animate--fade-in">Outline</button>
+        </div>
+        <!-- Input Component -->
+        <div class="ds__component ds__component--input">
+          <h3 class="ds__component-title">Campos de Entrada</h3>
+          <input type="text" class="ds__input ds__input--filled ds__animate--slide-up" placeholder="Texto" />
+          <input type="email" class="ds__input ds__input--filled ds__animate--slide-up" placeholder="E‑mail" />
+        </div>
+        <!-- Card Component -->
+        <div class="ds__component ds__component--card">
+          <h3 class="ds__component-title">Cards</h3>
+          <div class="ds__card ds__animate--scale-up">
+            <img src="assets/50d9e2c345eb6cc5_SingleProjectAjax1.jpg" alt="Imagem" class="ds__card__img" />
+            <div class="ds__card__body">
+              <h4 class="ds__card__title">Título do Card</h4>
+              <p class="ds__card__text">Breve descrição para demonstrar o estilo do card.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Modal Component -->
+        <div class="ds__component ds__component--modal">
+          <h3 class="ds__component-title">Modais</h3>
+          <button class="ds__button ds__button--primary" id="openModal">Abrir Modal</button>
+          <div class="ds__modal" id="modal" role="dialog" aria-hidden="true">
+            <div class="ds__modal__content ds__animate--zoom-in">
+              <button class="ds__modal__close" id="closeModal">✕</button>
+              <h4>Modal Title</h4>
+              <p>Conteúdo do modal demonstrando animações de entrada.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Tooltip Component -->
+        <div class="ds__component ds__component--tooltip">
+          <h3 class="ds__component-title">Tooltips</h3>
+          <button class="ds__button ds__button--secondary" data-tooltip="Informação extra">Hover me</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="ds__footer">
+    <div class="ds__container">
+      <p class="ds__footer-text">© Lidiane 2026 – Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts – interactions for hero slider, modal, tooltips, and reveal animations -->
+  <script src="assets/js/interactions.js"></script>
+  <script>
+    // Simple modal logic (pure JS, no external deps)
+    const openBtn = document.getElementById('openModal');
+    const closeBtn = document.getElementById('closeModal');
+    const modal = document.getElementById('modal');
+    openBtn?.addEventListener('click', () => { modal.setAttribute('aria-hidden', 'false'); });
+    closeBtn?.addEventListener('click', () => { modal.setAttribute('aria-hidden', 'true'); });
+  </script>
+</body>
+</html>
