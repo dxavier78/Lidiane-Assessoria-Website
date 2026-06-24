@@ -17,6 +17,19 @@
             }
             requestAnimationFrame(raf);
             lenis.on('scroll', ScrollTrigger.update);
+            // Update header theme based on visible section (light/dark)
+            const header = document.getElementById('main-header');
+            const sections = document.querySelectorAll('[data-theme]');
+            const themeObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const theme = entry.target.getAttribute('data-theme');
+                        header.classList.toggle('header-light', theme === 'light');
+                        header.classList.toggle('header-dark', theme === 'dark');
+                    }
+                });
+            }, { root: null, threshold: 0.5 });
+            sections.forEach(sec => themeObserver.observe(sec));
             gsap.ticker.add((time) => { lenis.raf(time * 1000); });
             gsap.ticker.lagSmoothing(0, 0);
 
@@ -201,59 +214,107 @@
             });
 
             // 7. Galeria de Sonhos (Entrada e Parallax)
-            gsap.from('.gallery-item', {
-                scrollTrigger: {
-                    trigger: '#galeria',
-                    start: 'top 80%',
-                },
-                y: 100,
-                opacity: 0,
-                filter: "blur(10px)",
-                duration: 1.2,
-                stagger: 0.1,
-                ease: 'power3.out'
-            });
+            let galleryData = [];
+            let currentIndex = 0;
+            const galleryContainer = document.querySelector('.gallery-grid');
 
-            // Parallax discreto na rolagem da galeria
-            gsap.utils.toArray('.gallery-item').forEach(item => {
-                const speed = parseFloat(item.getAttribute('data-speed'));
-                gsap.to(item, {
-                    yPercent: -15 * speed, // Move suavemente o card em relação ao scroll
-                    ease: "none",
+            fetch('./assets/data/gallery-data.json')
+                .then(response => response.json())
+                .then(data => {
+                    galleryData = data;
+                    renderGallery();
+                });
+
+            function renderGallery() {
+                galleryContainer.innerHTML = galleryData.map((item, index) => `
+                    <div class="gallery-item cursor-pointer group" data-index="${index}" data-theme="${item.title}" data-desc="${item.desc}">
+                        <img src="${item.src}" alt="${item.title}" class="w-full object-cover aspect-auto transform transition-transform duration-1000 group-hover:scale-[1.08] group-hover:brightness-110">
+                        <div class="overlay flex flex-col items-center justify-center p-4 text-center">
+                            <h3 class="text-xl font-bold mb-2">${item.title}</h3>
+                            <p class="text-sm">${item.desc}</p>
+                        </div>
+                    </div>
+                `).join('');
+                initGalleryInteractions();
+            }
+
+            function navigateGallery(direction) {
+                currentIndex = (currentIndex + direction + galleryData.length) % galleryData.length;
+                updateLightboxContent();
+            }
+
+            function updateLightboxContent() {
+                const item = galleryData[currentIndex];
+                lightboxTitle.textContent = item.title;
+                lightboxDesc.textContent = item.desc;
+                // Update image source
+                const img = lightboxImgContainer.querySelector('img');
+                if (img) {
+                    img.src = item.src;
+                } else {
+                    // If no img yet, create one
+                    const newImg = document.createElement('img');
+                    newImg.src = item.src;
+                    newImg.className = "w-full h-full object-cover rounded-3xl";
+                    lightboxImgContainer.appendChild(newImg);
+                }
+            }
+
+            function initGalleryInteractions() {
+                gsap.from('.gallery-item', {
                     scrollTrigger: {
-                        trigger: "#galeria",
-                        start: "top bottom",
-                        end: "bottom top",
-                        scrub: true
-                    }
+                        trigger: '#galeria',
+                        start: 'top 80%',
+                    },
+                    y: 100,
+                    opacity: 0,
+                    filter: "blur(10px)",
+                    duration: 1.2,
+                    stagger: 0.1,
+                    ease: 'power3.out'
                 });
-            });
 
-            // Tilt suave com mouse
-            document.querySelectorAll('.gallery-item').forEach(item => {
-                item.addEventListener('mousemove', (e) => {
-                    const rect = item.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    const xPercent = x / rect.width - 0.5;
-                    const yPercent = y / rect.height - 0.5;
-                    
-                    gsap.to(item.querySelector('img'), {
-                        rotationY: xPercent * 5,
-                        rotationX: -yPercent * 5,
-                        duration: 0.5,
-                        ease: "power2.out"
+                // Parallax discreto na rolagem da galeria
+                gsap.utils.toArray('.gallery-item').forEach(item => {
+                    const speed = parseFloat(item.getAttribute('data-speed'));
+                    gsap.to(item, {
+                        yPercent: -15 * speed, // Move suavemente o card em relação ao scroll
+                        ease: "none",
+                        scrollTrigger: {
+                            trigger: "#galeria",
+                            start: "top bottom",
+                            end: "bottom top",
+                            scrub: true
+                        }
                     });
                 });
-                item.addEventListener('mouseleave', () => {
-                    gsap.to(item.querySelector('img'), {
-                        rotationY: 0,
-                        rotationX: 0,
-                        duration: 0.5,
-                        ease: "power2.out"
+
+                // Tilt suave com mouse
+                document.querySelectorAll('.gallery-item').forEach(item => {
+                    item.addEventListener('mousemove', (e) => {
+                        const rect = item.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        const xPercent = x / rect.width - 0.5;
+                        const yPercent = y / rect.height - 0.5;
+                        
+                        gsap.to(item.querySelector('img'), {
+                            rotationY: xPercent * 5,
+                            rotationX: -yPercent * 5,
+                            duration: 0.5,
+                            ease: "power2.out"
+                        });
+                    });
+                    item.addEventListener('mouseleave', () => {
+                        gsap.to(item.querySelector('img'), {
+                            rotationY: 0,
+                            rotationX: 0,
+                            duration: 0.5,
+                            ease: "power2.out"
+                        });
                     });
                 });
-            });
+            }
 
             // 8. GSAP FLIP Lightbox
             const lightbox = document.getElementById('lightbox');
@@ -270,6 +331,7 @@
                     item.addEventListener('click', () => {
                         if (activeImage) return; // Previne cliques múltiplos
                         
+                        currentIndex = parseInt(item.getAttribute('data-index'));
                         const img = item.querySelector('img');
                         activeImage = img;
                         activePlaceholder = item;
