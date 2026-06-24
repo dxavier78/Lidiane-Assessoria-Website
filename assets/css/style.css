@@ -39,8 +39,8 @@
 .gallery-item .overlay {
   position: absolute;
   inset: 0;
-  background: rgba(232,124,147,0.4);
-  color: #fff;
+  background: rgba(255,223,0,0.4);
+  color: #000; font-weight: bold;
   display: flex;
   align-items: center;
   justify-content: center;
